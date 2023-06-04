@@ -1,22 +1,79 @@
-\chapter{Descrizione dello stage}
-\label{cap:descrizione-stage}
+\chapter{Fase di studio e di ricerca preliminare}
+\label{cap:analisi preliminare}
 
-\intro{Breve introduzione al capitolo}\\
+\intro{In questo capitolo verranno illustrate le varie metodologie individuate per poter rendere di maggiore qualità le risposte fornite dal RALM e le diverse tecnologie utlizzate}\\
 
-\section{Introduzione al progetto}
+\section{Individuazione del problema}
+I documenti, prima di essere passati al RALM, devono essere rielaborati in modo tale da renderli più "comprensibili".
+Il contenuto viene quindi diviso in porzioni di testo più piccole chiamate "chunk". A ogni domanda vengono analizzati tutti i 
+diversi chunk e ad ognuno di essi viene assegnato uno "score" che stabilirà quale di loro ha il contenuto più adatto da cui 
+poter ricavare la risposta.
+I problemi principali affrontati in questo stage sono stati i seguenti:
+\begin{itemize}
+    \item Linearizzazione delle tabelle: gli strumenti utilizzati per estrapolare il testo non permettevano di linearizzare 
+    la tabella in una maniera tale da renderla "leggibile" al RALM;
+    \item Individuazione della struttura del contenuto e suddivisione sensata all'interno dei chunk: 
+    inizialmente il testo veniva spezzato in punti poco sensati raggiunta una determinata quantità di caratteri già impostata e inserito all'interno di diversi chunk.
+    C'era quindi la possibilità di separare delle informazioni che sarebbe stato meglio avere all'interno dello stesso chunk (come ad esempio un paragrafo e il suo titolo).
+\end{itemize}
+
+\subsection{Linearizzazione delle tabelle}
+Una tabella può assumere moltissime strutture e per questo abbiamo deciso di considerare solamente le tabelle che avessero come prima riga 
+un'intesazione orizzontale e nelle righe successive i vari dati.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{3cm} |p{2cm} |p{2cm}| p{2cm}| p{2cm}|}
+        \hline
+        Cibo & Quantità & Energia(KCal) & Carboidrati(g) & Proteine(g) \\
+        \hline
+        Pennette rigate & 100g & 359 & 71 & 13 \\
+        \hline
+        Latte & 100ml & 47 & 4,9 & 3,2 \\
+        \hline
+        Banana & 100g & 89 & 23 & 1,1 \\
+        \hline
+    \end{tabular}
+    \caption{Esempio di tabella presa in considerazione (valori approssimativi)}
+    \label{tab:esempio-cibo}
+\end{table}
+
+Come specificato precedentemente le tabelle al momento dell'estrazione venivano linearizzate 
+perdendo alcune informazioni necessarie per la lettura effettuata dal RALM. 
+
+Per esempio la tabella \ref{tab:esempio-cibo} verrebbe linearizzata in questa maniera:
+\begin{tcolorbox}[colback=white, colframe=black]
+    Cibo Quantità Energia(KCal) Carboidrati(g) Proteine(g) Pennette rigate  100g  359  71  13 Latte 100ml 47 4,9 3,2 Banana  100g 89 23 1,1
+\end{tcolorbox}
+
+La tabella linearizzata perde quindi le informazioni sulla struttura e come risultato abbiamo una serie di valori posti senza avere troppo senso in fase di lettura per un RALM.
+
+Dopo un attenta ricerca effettuata su vari documenti scientifici sono riuscito ad individuare un modo semplice ed efficace per mantenere 
+l'informazione nella tabella linearizzata e la sua struttura:
+\begin{itemize}
+    \item All'inizio di ogni riga viene scritto "Riga n->" dove n sta per il numero della riga;
+    \item Per ogni cella presente nella tabella vengono concatenati il valore dell'intestazione della colonna dov'è presente il valore e il valore della cella separati dal carattere ":";
+    \item Ogni cella viene poi separata dall'altra con il carattere "|".
+\end{itemize} 
+
+Quindi la tabella \ref{tab:esempio-cibo} viene linearizzata in questo modo:
+\begin{tcolorbox}[colback=white, colframe=black]
+    Riga0->Cibo: Pennette rigate|Quantità:100g|Energia(KCal):359|Carboidrati(g): \\
+    71|Proteine(g):13| Riga1->Cibo: Latte|Quantità:100ml|Energia(KCal):47| \\
+    Carboidrati(g):4,9|Proteine(g):3,2| Riga2->Cibo: Banana|Quantità:100g \\
+    |Energia(KCal):89|Carboidrati(g):23|Proteine(g):1,1|
+\end{tcolorbox}
+
+
+
 
 \section{Analisi preventiva dei rischi}
 
-Durante la fase di analisi iniziale sono stati individuati alcuni possibili rischi a cui si potrà andare incontro.
-Si è quindi proceduto a elaborare delle possibili soluzioni per far fronte a tali rischi.\\
+%Durante la fase di analisi iniziale sono stati individuati alcuni possibili rischi a cui si potrà andare incontro.
+%Si è quindi proceduto a elaborare delle possibili soluzioni per far fronte a tali rischi.\\
 
 \begin{risk}{Performance del simulatore hardware}
     \riskdescription{le performance del simulatore hardware e la comunicazione con questo potrebbero risultare lenti o non abbastanza buoni da causare il fallimento dei test}
     \risksolution{coinvolgimento del responsabile a capo del progetto relativo il simulatore hardware}
     \label{risk:hardware-simulator} 
 \end{risk}
-
-\section{Requisiti e obiettivi}
-
-
-\section{Pianificazione}

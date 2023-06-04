@@ -22,3 +22,6 @@ $do_cd = 1;
 
 # Don't prompt for user interaction on errors and use synctex
 $pdflatex = 'pdflatex --interaction=nonstopmode --synctex=1 --shell-escape %O %S';
+$silent = 1;
+
+@default_files=("thesis.tex");

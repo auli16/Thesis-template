@@ -7,12 +7,27 @@
 \label{sec:tecnologie-strumenti}
 
 Di seguito viene data una panoramica delle tecnologie e strumenti utilizzati.
-
-\subsection*{Tecnologia 1}
-Descrizione Tecnologia 1.
-
-\subsection*{Tecnologia 2}
-Descrizione Tecnologia 2
+\subsection{Python}
+Python offre diverse librerie utili per l'apprendimento automatico, il trattamento del linguaggio naturale e molto altro ancora.
+\subsection{Tika}
+\label{subsec:tika}
+Tika è un tool che permette di estrarre dai file i suoi metadata (come titolo del file, autore e altro) e il suo contenuto sottoforma di testo (strutturato e non).
+Riesce ad estrarre i dati da molti formati tra cui Pdf, docx e html.
+\subsection{Pandas}
+Pandas è una libreria che fornisce strutture dati e strumenti per la manipolazione e l'analisi dei dati.
+Il primo passo importante dell'estrazione delle tabelle dai vari documenti è stato quello di avere un DataFrame a disposizione con i valori di quest'ultime. 
+Pandas è stato utilizzato per l'estrazione delle tabelle dai file in formato html e docx.
+\subsection{Camelot}
+Camelot è una libreria per Python che fornisce funzionalità per l'estrazione automatizzata di tabelle dai documenti PDF.
+Camelot, una volta individuata la tabella in un documento, estrae i dati e li restituisce come un DataFrame di Pandas.
+\subsection{Python-docx}
+Python-docx è una libreria che consente di creare, modificare e leggere documenti Microsoft Word.
+Grazie a questa libreria è possibile manipolare le tabelle presenti all'interno dei file docx.
+\subsection{BeautifulSoup}
+BeautifulSoup è una libreria Python che facilita l'estrazione di dati da file HTML e XML.
+\subsection{Weaviate}
+Weaviate è un database vettoriale, un motore di ricerca basato sulla "vector similarity search".
+Weaviate è utile quindi per la ricerca dei dati basata sulla loro semantica e sulle loro relazioni. 
 
 \section{Ciclo di vita del software}
 \label{sec:ciclo-vita-software}

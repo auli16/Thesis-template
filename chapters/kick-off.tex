@@ -13,11 +13,23 @@ I problemi principali affrontati in questo stage sono stati i seguenti:
     \item Linearizzazione delle tabelle: gli strumenti utilizzati per estrapolare il testo non permettevano di linearizzare 
     la tabella in una maniera tale da renderla "leggibile" al RALM;
     \item Individuazione della struttura del contenuto e suddivisione sensata all'interno dei chunk: 
-    inizialmente il testo veniva spezzato in punti poco sensati raggiunta una determinata quantità di caratteri già impostata e inserito all'interno di diversi chunk.
-    C'era quindi la possibilità di separare delle informazioni che sarebbe stato meglio avere all'interno dello stesso chunk (come ad esempio un paragrafo e il suo titolo).
+    inizialmente il testo veniva separato tramite una sliding window che consentiva di ripetere l'informazione in più chunk in modo tale da non perdere 
+    il significato di alcune frasi.
+    Con questa metodologia però si rischia di accorpare nello stesso chunk informazioni appartenenti a diversi paragrafi e che, quindi, potrebbero essere incoerenti fra loro.
 \end{itemize}
 
-\subsection{Linearizzazione delle tabelle}
+I fomrmati dei file considerati in questo stage sono stati i seguenti:
+\begin{itemize}
+    \item Pdf;
+    \item Docx;
+    \item HTML.
+\end{itemize}
+
+\subsection{Table Question Answering}
+Nel Table Question Answering (TQA) le domande poste dall'utente cercano di avere una risposta precisa con i dati ricavati da delle tabelle.
+L'obiettivo è quello di migliorare l'accesso e la comprensione delle informazioni strutturate contenute nelle tabelle.
+
+\subsubsection{Linearizzazione delle tabelle}
 Una tabella può assumere moltissime strutture e per questo abbiamo deciso di considerare solamente le tabelle che avessero come prima riga 
 un'intesazione orizzontale e nelle righe successive i vari dati.
 
@@ -37,18 +49,16 @@ un'intesazione orizzontale e nelle righe successive i vari dati.
     \caption{Esempio di tabella presa in considerazione (valori approssimativi)}
     \label{tab:esempio-cibo}
 \end{table}
-
-Come specificato precedentemente le tabelle al momento dell'estrazione venivano linearizzate 
+\noindent Come specificato precedentemente le tabelle al momento dell'estrazione venivano linearizzate 
 perdendo alcune informazioni necessarie per la lettura effettuata dal RALM. 
 
-Per esempio la tabella \ref{tab:esempio-cibo} verrebbe linearizzata in questa maniera:
+\noindent Per esempio la tabella \ref{tab:esempio-cibo} verrebbe linearizzata in questa maniera:
 \begin{tcolorbox}[colback=white, colframe=black]
     Cibo Quantità Energia(KCal) Carboidrati(g) Proteine(g) Pennette rigate  100g  359  71  13 Latte 100ml 47 4,9 3,2 Banana  100g 89 23 1,1
 \end{tcolorbox}
+\noindent La tabella linearizzata perde quindi le informazioni sulla struttura e come risultato abbiamo una serie di valori posti senza avere troppo senso in fase di lettura per un RALM. \\
 
-La tabella linearizzata perde quindi le informazioni sulla struttura e come risultato abbiamo una serie di valori posti senza avere troppo senso in fase di lettura per un RALM.
-
-Dopo un attenta ricerca effettuata su vari documenti scientifici sono riuscito ad individuare un modo semplice ed efficace per mantenere 
+\noindent Dopo un attenta ricerca effettuata su vari documenti scientifici sono riuscito ad individuare un modo semplice ed efficace per mantenere 
 l'informazione nella tabella linearizzata e la sua struttura:
 \begin{itemize}
     \item All'inizio di ogni riga viene scritto "Riga n->" dove n sta per il numero della riga;
@@ -64,36 +74,6 @@ Quindi la tabella \ref{tab:esempio-cibo} viene linearizzata in questo modo:
     |Energia(KCal):89|Carboidrati(g):23|Proteine(g):1,1|
 \end{tcolorbox}
 
+\subsection{Chunking}
 
-\section{Tecnologie utilizzate}
-\subsection{Python}
-Python offre diverse librerie utili per l'apprendimento automatico, il trattamento del linguaggio naturale e molto altro ancora.
-\subsection{Tika}
-Tika è un tool che permette di estrarre dai file i suoi metadata (come titolo del file, autore e altro) e il suo contenuto sottoforma di testo (strutturato e non).
-Riesce ad estrarre i dati da molti formati tra cui Pdf, docx e html.
-\subsection{Pandas}
-Pandas è una libreria che fornisce strutture dati e strumenti per la manipolazione e l'analisi dei dati.
-Il primo passo importante dell'estrazione delle tabelle dai vari documenti è stato quello di avere un DataFrame a disposizione con i valori di quest'ultime. 
-Pandas è stato utilizzato per l'estrazione delle tabelle dai file in formato html e docx.
-\subsection{Camelot}
-Camelot è una libreria per Python che fornisce funzionalità per l'estrazione automatizzata di tabelle dai documenti PDF.
-Camelot, una volta individuata la tabella in un documento, estrae i dati e li restituisce come un DataFrame di Pandas.
-\subsection{Python-docx}
-Python-docx è una libreria che consente di creare, modificare e leggere documenti Microsoft Word.
-Grazie a questa libreria è possibile manipolare le tabelle presenti all'interno dei file docx.
-\subsection{BeautifulSoup}
-BeautifulSoup è una libreria Python che facilita l'estrazione di dati da file HTML e XML.
-\subsection{Weaviate}
-Weaviate è un database vettoriale, un motore di ricerca basato sulla "vector similarity search".
-Weaviate è utile quindi per la ricerca dei dati basata sulla loro semantica e sulle loro relazioni. 
-
-\section{Analisi preventiva dei rischi}
-
-%Durante la fase di analisi iniziale sono stati individuati alcuni possibili rischi a cui si potrà andare incontro.
-%Si è quindi proceduto a elaborare delle possibili soluzioni per far fronte a tali rischi.\\
-
-\begin{risk}{Performance del simulatore hardware}
-    \riskdescription{le performance del simulatore hardware e la comunicazione con questo potrebbero risultare lenti o non abbastanza buoni da causare il fallimento dei test}
-    \risksolution{coinvolgimento del responsabile a capo del progetto relativo il simulatore hardware}
-    \label{risk:hardware-simulator} 
-\end{risk}
+\subsubsection{Ricerca}

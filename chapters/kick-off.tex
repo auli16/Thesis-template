@@ -76,4 +76,20 @@ Quindi la tabella \ref{tab:esempio-cibo} viene linearizzata in questo modo:
 
 \subsection{Chunking}
 
-\subsubsection{Ricerca}
+\subsubsection{Recupero delle informazioni}
+\paragraph{\gls{BM25}}
+BM25 è una ranking function usata dai motori di ricerca (nel mio caso \nameref{subsec:weav}), è un algoritmo di tipo \emph{\gls{Bag-of-Words}}\glsfirstoccur e calcola un punteggio per ogni chunk
+presente in base alla frequenza di vari termini presenti nella query di ricerca. 
+
+\paragraph{Vector search}
+Tramite la vector search vengono generate rappresentazioni vettoriali dei dati ed è possibile calcolare la similarità tra i vettori.
+Per poter riconoscere il vero significato attribuito ad una parola i chunk vengono suddivisi a loro volta in token.
+Il token indica una singola unità linguistica o comunque un elemento individuale all'interno di un testo e può rappresentare per esempio una parola, un simbolo di punteggiatura o anche una parte di una parola.
+Grazie a questi token è possibile calcolare la distanza tra i vettori tramite.
+Il tipo di distanza utiilizzata in questo progetto è stata la "Cosine Distance"
+% spiegare la cosine
+
+\paragraph{Ricerca ibridia}
+Il tipo di ricerca applicata in Weaviate per questo progetto è stata la ricerca ibridia che sfrutta sia BM25 che la Vector search per poter stabilire un punteggio per i chunk.
+
+

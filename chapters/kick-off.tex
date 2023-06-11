@@ -86,10 +86,22 @@ Tramite la vector search vengono generate rappresentazioni vettoriali dei dati e
 Per poter riconoscere il vero significato attribuito ad una parola i chunk vengono suddivisi a loro volta in token.
 Il token indica una singola unità linguistica o comunque un elemento individuale all'interno di un testo e può rappresentare per esempio una parola, un simbolo di punteggiatura o anche una parte di una parola.
 Grazie a questi token è possibile calcolare la distanza tra i vettori tramite.
-Il tipo di distanza utiilizzata in questo progetto è stata la "Cosine Distance"
-% spiegare la cosine
+Il tipo di distanza utilizzata in questo progetto è stata la \emph{Cosine Distance}.
+
+\subparagraph{Cosine similarity}
+La \emph{Cosine similarity} misura l'angolo tra due vettori in uno spazio multidimensionale (con l'idea che due vettori simili puntino in direzioni simili).
+La cosine similarity e la cosine distance hanno una relazione inversa: all'aumentare della distanza la similarità diminuisce e viceversa.
+
+\noindent La cosine similarity viene calcolata tramite la seguente formula:
+Dati due vettori A,B
+
+\[
+\text{Cos(A,B)} = \frac{{\mathbf{A} \cdot \mathbf{B}}}{{\|\mathbf{A}\| \cdot \|\mathbf{B}\|}}    
+\]
+
+\[
+\text{Cosine distance} = 1-Cos(A,B)
+\]
 
 \paragraph{Ricerca ibridia}
 Il tipo di ricerca applicata in Weaviate per questo progetto è stata la ricerca ibridia che sfrutta sia BM25 che la Vector search per poter stabilire un punteggio per i chunk.
-
-

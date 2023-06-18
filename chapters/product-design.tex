@@ -1,2 +1,93 @@
 \chapter{Verifica e validazione}
 \label{cap:verifica-validazione}
+
+\intro{In questo capitolo vengono riportati tutti i dati e le prove effettuate sul RALM per ogni modifica aggiunta}
+
+\section{Test}
+Come fonte di informazioni per il RALM sono state scelte cinque pagine di Wikipedia e sono state convertite nei formati desiderati (HTML, Pdf, Docx).
+La pagine scelte sono composte di testo e altri elementi semantici, tra cui le tabelle che hanno la struttura della tabella \ref{tab:esempio-cibo} spiegata nel paragrafo \nameref{subsubsec-lin-tab}
+
+I test sono stati effettuati tramite una valutazione umana secondo i seguenti criteri:
+\begin{itemize}
+    \item La risposta deve essere ben strutturata, scritta in maniera corretta e comprensibile;
+    \item La risposta deve essere corretta e completa.
+\end{itemize}
+
+Sulla base di ciò a ogni risposta viene assegnato un valore tra 0 (risposta non corretta/strutturata male) e 1 (risposta corretta e strutturata correttamente)
+
+\subsection{Domande}
+Sono stati creati due set da 10 domande l'uno, le domande sono state create in maniera tale da poter interrogare il modello sui dati presenti nelle tabelle dei vari documenti:
+\begin{itemize}
+    \item Set di domande semplici: domande che interrogano il RALM su singole celle delle tabelle o celle che hanno la stessa intestazione;
+    \item Set di domande complesse: domande che interrogano il RALM su diverse celle e che chiedono di fare diverse operazioni tra i dati presenti (es: somma, media).
+\end{itemize}
+
+\subsubsection{Set di domande semplici}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.5cm} |p{2.5cm} |p{4cm}| p{4.5cm}|}
+        \hline
+        \textbf{N}. & \textbf{Nome pagina} & \textbf{Domanda} & \textbf{Risposta corretta} \\
+        \hline
+        1 & Italia & Quali sono le 3 città italiane con più abitanti? & Roma, Milano, Napoli \\
+        \hline
+        2 & Italia & Nel settore terziario italiano, qual è il settore che presenta più imprese? & Il commercio \\
+        \hline
+        3 & Avanti un altro! & In quali paesi è stato esportato Avanti un altro? & Spagna, Albania, Ungheria, Vietnam, Brasile, Bulgaria, Cile, Paraguay, Canada, Turchia, Polonia, Romania \\
+        \hline
+        4 & Avanti un altro! & In che canale è stato trasmesso Avanti un altro? & Canale 5\\
+        \hline
+        5 & SPAR & In che anno è arrivato SPAR in italia? & 1959 \\
+        \hline
+        6 & SPAR & Quanto volume d'affari ha SPAR in Belgio & 626.307 \\
+        \hline
+        7 & The Space Cinema & Quante sale ha il The Space Cinema di Padova? & 14 \\
+        \hline
+        8 & The Space Cinema & Quanti posti a sedere ha il The Space Cinema di Parma centro & 1402 \\
+        \hline
+        9 & Sonic(serie) & In che anno è uscito il videogioco "Sonic Battle"? & 2003 \\
+        \hline
+        10 & Sonic(serie) & Dov'è apparso Tails per la prima volta? & Sonic the hedghog 2 \\
+        \hline
+    \end{tabular}
+    \caption{Set di domande semplici poste al RALM}
+\end{table}
+
+\subsubsection{Set di domande complesse}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.5cm} |p{2.5cm} |p{4cm}| p{4.5cm}|}
+        \hline
+        \textbf{N}. & \textbf{Nome pagina} & \textbf{Domanda} & \textbf{Risposta corretta} \\
+        \hline
+        1 & Italia & Quali città hanno più di 500000 abitanti in italia? & Roma, Milano, Napoli, Torino, Palermo e Genova \\
+        \hline
+        2 & Italia & Quali sono le città italiane che hanno più 300000 abitanti ma meno di 387841? & Firenze, Bari, Catania \\
+        \hline
+        3 & Avanti un altro! & Mediamente quanti telespettatori ci sono stati per ogni edizione di avanti un altro? & circa 3700000 \\
+        \hline
+        4 & Avanti un altro! & Quante puntate ci sono state di avanti un altro in tutto? & Circa 1400 \\
+        \hline
+        5 & SPAR & In quali paesi è arrivato SPAR dal 2000 in poi? & Russia, Mauritius, Cipro, Ucraina, Cina, Croazia \\
+        \hline
+        6 & SPAR & In quali paesi le strutture SPAR hanno meno di 10000 metri quadrati di superficie? & Croazia, Mauritious, Zambia,  India, Albania \\
+        \hline
+        7 & The Space Cinema & Quali sono i the space situati in provincia di Torino? & Beinsasco, Torino - Parco Dora \\
+        \hline
+        8 & The Space Cinema & Quali sono i the space con più di 13 sale? & Limena, Roma Paroc de' Medici,  Vimercate \\
+        \hline
+        9 & Sonic(serie) & Chi è eggman e quando ha fatto la sua prima apparizione? & Eggman è un uomo esperto di ingegneria robotica che vuole conquistare il mondo di Sonic, antagonista principale della serie. Ha fatto la sua prima apparizione in "Sonic the hedghog". \\
+        \hline
+        10 & Sonic(serie) & Elenca tutti i giochi mobile di Sonic dal 2015 in poi & Sonic runners, sonic dash 2: sonic boom, sonic runners adventure, sonic forces speed battle, sonic speed simulaor \\
+        \hline
+    \end{tabular}
+    \caption{Set di domande complesse poste al RALM}
+\end{table}
+
+\subsection{Test sulla versione iniziale}
+Qui abbiamo il testo estratto con Tika senza alcuna modifica aggiuntiva
+
+\subsubsection{HTML}
+
+\subsubsection{Docx}
+\subsubsection{Pdf}

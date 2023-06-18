@@ -84,10 +84,195 @@ Sono stati creati due set da 10 domande l'uno, le domande sono state create in m
     \caption{Set di domande complesse poste al RALM}
 \end{table}
 
-\subsection{Test sulla versione iniziale}
-Qui abbiamo il testo estratto con Tika senza alcuna modifica aggiuntiva
+Nei seguenti paragrafi vengono riportate le risposte del RALM a ogni aggiornamento significativo del codice per denotare l'effettivo miglioramento della qualità delle risposte:
 
-\subsubsection{HTML}
+\begin{enumerate}
+    \item Prima versione: estrazione del contenuto semplice (senza linearizzazione delle tabelle, senza correzione del chunking e pulizia del testo);
+    \item Seconda verione: estrazione del contenuto con la linearizzazione delle tabelle;
+    \item Terza versione: estrazione del contenuto con la linearizzazione delle tabelle e la correzione del chunking;
+    \item Quarta versione: estrazione del contenuto con la linearizzazione delle tabelle, correzione del chunking e pulizia del testo;
+
+\end{enumerate}
+
+
+\subsection{Test sui file HTML}
+
+\subsubsection{Prima versione - Risposte al set di domande semplici}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.5cm} |p{6cm} |p{2cm}|}
+        \hline
+        \textbf{N}. & \textbf{Risposta fornita dal RALM} & \textbf{Valutazione} \\
+        \hline
+        1 & Roma, Milano e Napoli sono le tre città italiane con più abitanti. & 1 \\
+        \hline
+        2 & Il settore che presenta più imprese nel terziario italiano è il settore dei servizi. & 0 \\
+        \hline
+        3 & Avanti un altro! è stato esportato in Spagna, Albania, Ungheria, Vietnam, Brasile, Paraguay, Cile, Bulgaria, Canada, Turchia, Polonia e Romania. & 1 \\
+        \hline
+        4 & Avanti un altro è stato trasmesso sul canale 5. & 1 \\
+        \hline
+        5 & SPAR è arrivato in Italia nel 1959. & 1 \\
+        \hline
+        6 &  SPAR in Belgio & 0 \\
+        \hline
+        7 & Il the space di Padova ha 14 sale & 1 \\
+        \hline
+        8 & Il The Space di Parma Centro ha 7 sale e 1402 posti a sedere & 1 \\
+        \hline
+        9 & Il videogioco Sonic Battle è stato pubblicato da Sega nel 2003. & 1 \\
+        \hline
+        10 & Tails è un compagno di Sonic che appare per la prima volta in Sonic the Hedgehog 2 nel 1992. & 1 \\
+        \hline
+    \end{tabular}
+    \caption{Risposte al set di domande semplici date dalla prima versione del RALM (File HTML)}
+\end{table}
+
+\textbf{Correttezza:} 8/10
+
+\subsubsection{Prima versione - Risposte al set di domande complesse}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.5cm} |p{6cm} |p{2cm}|}
+        \hline
+        \textbf{N}. & \textbf{Risposta fornita dal RALM} & \textbf{Valutazione} \\
+        \hline
+        1 & Palermo, Cagliari, Trento, Venezia, Trieste, Bologna, Firenze, Perugia, Ancona, Roma, Napoli, Bari, Potenza, Catanzaro, Matera, Belluno & 0 \\
+        \hline
+        2 & Napoli, Palermo, Genova, Bologna, Firenze e Bari. & 0 \\
+        \hline
+        3 & In media si contano 3.995.000 spettatori per edizione. & 0.8 \\
+        \hline
+        4 & 17 edizioni, con una puntata speciale & 0 \\
+        \hline
+        5 & SPAR è arrivata in Belgio, Danimarca, Francia, Germania, Irlanda, Italia, Lituania, Paesi Bassi, Polonia, Regno Unito, Russia, Sudafrica, Spagna, Svizzera, Ungheria, Zimbabwe. & 0 \\
+        \hline
+        6 & SPAR è presente in Croazia, Slovenia, Austria, Germania, Regno Unito, Italia, Sudafrica, Norvegia, Giappone, Cina e Croazia. & 0 \\
+        \hline
+        7 & The Space Cinema è una catena di cinema presente in provincia di Torino. Ha 8 sale e 1295 posti a sedere. & 0 \\
+        \hline
+        8 & The Space Cinema è una delle catene di cinema più grandi in Italia, con 34 diverse strutture e 347 sale.  & 0 \\
+        \hline
+        9 & Eggman è un personaggio che è appena comparso nella serie Sonic. È uno scienziato malvagio che cerca di conquistare il mondo. & 0 \\
+        \hline
+        10 & Sonic mobile games from 2015 onwards: Sonic Jump (2015), Sonic Dash (2013), Sonic Jump Fever (2014), Sonic Runners (2015), Sonic Dash 2: Sonic Boom (2015), Sonic Runners Adventure (2017), Sonic Forces: Speed Battle (2017), Sonic Speed Simulator (2022) & 0 \\
+        \hline
+    \end{tabular}
+    \caption{Risposte al set di domande complesse date dalla prima versione del RALM (File HTML)}
+\end{table}
+
+\textbf{Correttezza:} 0.8/10
+
+\subsubsection{Seconda versione - Risposte al set di domande semplici}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.5cm} |p{6cm} |p{2cm}|}
+        \hline
+        \textbf{N}. & \textbf{Risposta fornita dal RALM} & \textbf{Valutazione} \\
+        \hline
+        1 & Roma, Milano e Napoli sono le prime tre città italiane per popolazione. & 1 \\
+        \hline
+        2 & Il commercio è il settore che presenta più imprese in Italia, seguito da turismo, trasporti e logistica, e altri servizi. & 1 \\
+        \hline
+        3 & Avanti un altro! è stato esportato in Spagna, Albania, Ungheria, Vietnam, Brasile, Paraguay, Cile, Bulgaria, Canada, Turchia, Polonia e Romania. & 1 \\
+        \hline
+        4 & Avanti un altro è stato trasmesso sul canale 5. & 1 \\
+        \hline
+        5 & SPAR è arrivato in Italia nel 1959. & 1 \\
+        \hline
+        6 & SPAR ha un volume d'affari di 626.307 migliaia di € in Belgio. & 1 \\
+        \hline
+        7 & Il the space di Padova ha 14 sale & 1 \\
+        \hline
+        8 & The Space Cinema di Parma Centro ha 1402 posti a sedere. & 1 \\
+        \hline
+        9 & Il videogioco Sonic Battle è uscito nel 2003. & 1 \\
+        \hline
+        10 & Tails ha fatto la sua prima apparizione in Sonic the Hedgehog 2 (8-bit) nel 1992. Da allora, è apparso in un totale di 56 giochi. & 1 \\
+        \hline
+    \end{tabular}
+    \caption{Risposte al set di domande semplici date dalla seconda versione del RALM (File HTML)}
+\end{table}
+
+\textbf{Correttezza:} 10/10
+
+\subsubsection{Seconda versione - Risposte al set di domande semplici}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.5cm} |p{6cm} |p{2cm}|}
+        \hline
+        \textbf{N}. & \textbf{Risposta fornita dal RALM} & \textbf{Valutazione} \\
+        \hline
+        1 & Le città italiane con più di 500.000 abitanti sono Milano, Roma, Torino, Palermo, Napoli e Genova. & 1 \\
+        \hline
+        2 & Firenze, Bari, Catania & 1 \\
+        \hline
+        3 & Non è chiaro quanto sia l'edizione di Avanti un altro, ma si stima che ci siano stati 3 milioni di telespettatori per edizione. & 0 \\
+        \hline
+        4 & In totale, ci sono stati 1.143 episodi di "Avanti un altro!" trasmessi dal 2011 al 2020. & 0 \\
+        \hline
+        5 & I Paesi in cui è arrivato SPAR dal 2000 in poi sono Russia, Mauritius, Cipro, Ucraina, Cina e Croazia. & 1 \\
+        \hline
+        6 & I paesi in cui le strutture SPAR hanno meno di 10000 metri quadrati di superficie sono la Polonia, l'Australia, l'Ucraina, la Croazia e lo Zimbabwe. & 0 \\
+        \hline
+        7 & I nomi dei the space situati in provincia di Torino sono Montesilvano, Napoli, Nola, Parma Campus, Parma Centro e Pradamano. & 0 \\
+        \hline
+        8 & I cinema The Space con più di 13 sale sono: Rozzano, Salerno, Sestu, Silea. & 0 \\
+        \hline
+        9 & Eggman è un personaggio che appare nella serie Sonic. È un uomo esperto di ingegneria robotica che vuole conquistare il mondo di Sonic. Ha fatto la sua prima apparizione in Sonic the Hedgehog nel 1991.  & 1 \\
+        \hline
+        10 & I giochi mobile di Sonic dal 2015 in poi sono: Sonic runners (2015), Sonic Dash 2: Sonic Boom (2015), Sonic Runners Adventure (2017), Sonic Forces: Speed Battle (2017) e Sonic Speed Simulator (2022). & 1 \\
+        \hline
+    \end{tabular}
+    \caption{Risposte al set di domande complesse date dalla seconda versione del RALM (File HTML)}
+\end{table}
+
+\textbf{Correttezza:} 5/10
+
+\subsubsection{Grafico Risposte corrette su versione}
+Qui di seguito c'è il grafico che evidenzia l'andamento della quantità delle risposte corrette che vengono date dal RALM nelle sue varie versioni.
+
+
+    
+\begin{figure}
+    
+    \centering
+    \begin{tikzpicture}
+        \centering
+        \begin{axis}[
+            xlabel={Versione},
+            ylabel={Risposte corrette},
+            grid=major,
+            width=12cm,
+            height=10cm,
+            xtick={1, 2, 3, 4}, 
+            ytick={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+        ]
+        \addplot coordinates {
+            (1, 8)
+            (2, 10)
+            (3, 0)
+            (4, 0)
+        };
+        \addlegendentry{Semplici}
+
+        \addplot coordinates {
+            (1, 0.8)
+            (2, 5)
+            (3, 0)
+            (4, 0)
+        };
+        \addlegendentry{Complesse}
+        
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Grafico risposte corrette su versione - HTML}
+
+\end{figure}
 
 \subsubsection{Docx}
 \subsubsection{Pdf}

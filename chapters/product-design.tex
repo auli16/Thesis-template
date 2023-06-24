@@ -89,8 +89,7 @@ Nei seguenti paragrafi vengono riportate le risposte del RALM a ogni aggiornamen
 \begin{enumerate}
     \item Prima versione: estrazione del contenuto semplice (senza linearizzazione delle tabelle, senza correzione del chunking e pulizia del testo);
     \item Seconda verione: estrazione del contenuto con la linearizzazione delle tabelle;
-    \item Terza versione: estrazione del contenuto con la linearizzazione delle tabelle e la correzione del chunking;
-    \item Quarta versione: estrazione del contenuto con la linearizzazione delle tabelle, correzione del chunking e pulizia del testo;
+    \item Terza versione: estrazione del contenuto con la linearizzazione delle tabelle e la correzione del chunking e pulizia del testo;
 
 \end{enumerate}
 
@@ -199,7 +198,7 @@ Nei seguenti paragrafi vengono riportate le risposte del RALM a ogni aggiornamen
 
 \textbf{Correttezza:} 10/10
 
-\subsubsection{Seconda versione - Risposte al set di domande semplici}
+\subsubsection{Seconda versione - Risposte al set di domande complesse}
 
 \begin{table}[H]
     \centering
@@ -233,12 +232,152 @@ Nei seguenti paragrafi vengono riportate le risposte del RALM a ogni aggiornamen
 
 \textbf{Correttezza:} 5/10
 
+\subsection{Test sui file Docx}
+
+\subsubsection{Prima versione - Risposte al set di domande semplici}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.5cm} |p{6cm} |p{2cm}|}
+        \hline
+        \textbf{N}. & \textbf{Risposta fornita dal RALM} & \textbf{Valutazione} \\
+        \hline
+        1 & Roma, Milano e Napoli. & 1 \\
+        \hline
+        2 & Il settore terziario, composto principalmente da commercio, trasporti e logistica, turismo e altri servizi, rappresenta la maggior parte delle imprese italiane. & 0 \\
+        \hline
+        3 & Il format è stato ideato da Paolo Bonolis e Stefano Santucci ed è stato esportato in: Spagna, Albania, Ungheria, Vietnam, Brasile, Paraguay, Cile, Bulgaria, Canada, Turchia, Polonia e Romania. & 1 \\
+        \hline
+        4 & Avanti un altro! è un game show italiano in onda su Canale 5. Il programma va in onda dallo studio 1 del Centro Titanus Elios di Roma. & 1 \\
+        \hline
+        5 & Il marchio SPAR è arrivato in Italia nel 1959. & 1 \\
+        \hline
+        6 & SPAR ha un volume d'affari di 29,7 miliardi di euro in Belgio. & 0 \\
+        \hline
+        7 & The Space Cinema di Padova ha 14 sale. & 1 \\
+        \hline
+        8 & Il The Space di Parma Centro ha 7 sale e una capienza massima di 1.402 posti a sedere. & 1 \\
+        \hline
+        9 & Il videogioco Sonic Battle è stato lanciato nel 2003. & 1 \\
+        \hline
+        10 & Tails è apparso per la prima volta in Sonic the Hedgehog 2 nel 1992. & 1 \\
+        \hline
+    \end{tabular}
+    \caption{Risposte al set di domande semplici date dalla prima versione del RALM (File Docx)}
+\end{table}
+
+\textbf{Correttezza:} 8/10
+
+\subsubsection{Prima versione - Risposte al set di domande complesse}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.5cm} |p{6cm} |p{2cm}|}
+        \hline
+        \textbf{N}. & \textbf{Risposta fornita dal RALM} & \textbf{Valutazione} \\
+        \hline
+        1 & Roma, Milano, Napoli, Torino, Palermo, Genova, Bologna, Firenze, Bari, Catania & 0 \\
+        \hline
+        2 & Napoli, Palermo, Genova, Bologna, Firenze e Bari. & 0 \\
+        \hline
+        3 & Nelle prime quattro stagioni era presente in studio come responsabile della sicurezza il buttafuori Mediaset Girolamo Di Stolfo, noto come Big Jimmy, poi ricordato da Bonolis al termine della prima puntata della quinta edizione, in seguito alla sua morte avvenuta il 13 luglio 2015 per aneurisma cerebrale. & 0 \\
+        \hline
+        4 & Circa 1000. & 0 \\
+        \hline
+        5 & SPAR è presente in 32 paesi in tutto il mondo. & 0 \\
+        \hline
+        6 & I paesi in cui le strutture SPAR hanno meno di 10000 metri quadrati di superficie sono l'Albania, l'Austria, la Germania, il Regno Unito, l'Italia, la Sudafrica, il Giappone, la Spagna e l'Irlanda. & 0 \\
+        \hline
+        7 & There are 9 The Space Cinemas located in the province of Turin. & 0 \\
+        \hline
+        8 & The Space Cinema è una catena di multisale cinematografiche che opera in Italia. È la seconda catena di cinema più grande sul territorio italiano, superata solo dal circuito United Cinemas International. & 0 \\
+        \hline
+        9 & Il Dr. Robotnik alias Eggman è un uomo esperto di ingegneria robotica che vuole conquistare il mondo di Sonic, antagonista principale della serie. & 0.5 \\
+        \hline
+        10 & I giochi mobile di Sonic dal 2015 sono: Sonic Dash 2: Sonic Boom, Sonic Runners Adventure, Sonic Forces: Speed Battle, Sonic Speed Simulator. & 1 \\
+        \hline
+    \end{tabular}
+    \caption{Risposte al set di domande complesse date dalla prima versione del RALM (File Docx)}
+\end{table}
+
+\textbf{Correttezza:} 1.5/10
+
+\subsubsection{Seconda versione - Risposte al set di domande semplici}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.5cm} |p{6cm} |p{2cm}|}
+        \hline
+        \textbf{N}. & \textbf{Risposta fornita dal RALM} & \textbf{Valutazione} \\
+        \hline
+        1 & Le 3 città italiane con più abitanti sono: Roma, Milano e Napoli. & 1 \\
+        \hline
+        2 & Il settore che presenta più imprese nel settore terziario italiano è il commercio. & 1 \\
+        \hline
+        3 & Il format Avanti un altro! è stato esportato in Spagna, Albania, Ungheria, Vietnam, Brasile, Paraguay, Cile, Bulgaria, Canada, Turchia, Polonia e Romania. & 1 \\
+        \hline
+        4 & Avanti un altro è stato trasmesso  nel preserale di Canale 5 & 1 \\
+        \hline
+        5 & 1959 & 1 \\
+        \hline
+        6 & 626.307 & 1 \\
+        \hline
+        7 & The Space Cinema ha 14 sale e 3178 posti a sedere. & 1 \\
+        \hline
+        8 & 1402 & 1 \\
+        \hline
+        9 & Il videogioco Sonic Battle è uscito nel 2003. & 1 \\
+        \hline
+        10 & Tails è apparso per la prima volta in Sonic the Hedgehog 2 nel 1992. & 1 \\
+        \hline
+    \end{tabular}
+    \caption{Risposte al set di domande semplici date dalla seconda versione del RALM (File Docx)}
+\end{table}
+
+\textbf{Correttezza:} 10/10
+
+\subsubsection{Seconda versione - Risposte al set di domande complesse}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.5cm} |p{6cm} |p{2cm}|}
+        \hline
+        \textbf{N}. & \textbf{Risposta fornita dal RALM} & \textbf{Valutazione} \\
+        \hline
+        1 & Le città italiane con più di un milione di abitanti sono Roma, Milano, Napoli, Torino e Palermo. & 0.8 \\
+        \hline
+        2 & 8|Comune:Firenze|Città metropolitana: Firenze |Regione: Toscana |Abitanti :361 619 | 
+        riga9->Pos.:9|Comune:Bari|Città metropolitana: Bari |Regione: Puglia |Abitanti :315 948 |
+        riga10->Pos.:10|Comune:Catania|Città metropolitana: Catania |Regione: Sicilia |Abitanti :301 104 | & 0.3 \\
+        \hline
+        3 & La media di spettatori per ogni edizione di "Avanti un altro!" è di circa 3.5 milioni. & 1 \\
+        \hline
+        4 & Ci sono state 1100 puntate in 12 edizioni & 0 \\
+        \hline
+        5 & SPAR è presente in Croazia, Italia, Spagna, Francia, Belgio, Germania, Paesi Bassi, Sudafrica, Irlanda, Zimbabwe, Giappone, Argentina, Norvegia, Mauritius, Cipro, Ucraina, Lituania, Polonia, Australia e Nuova Zelanda. & 0 \\
+        \hline
+        6 & I paesi in cui le strutture SPAR hanno meno di 10000 metri quadrati di superficie sono Polonia, Australia, Ucraina, Croazia e Zimbawe. & 0 \\
+        \hline
+        7 & Per la provincia di Torino i cinema The Space si trovano a Torino - Parco Dora e Vimercate. & 0.5 \\
+        \hline
+        8 & The Space Cinema è una catena di multisale cinematografiche con sede in Italia. The Space Cinema è la seconda catena di cinema più grande sul territorio italiano, superata solo dal circuito United Cinemas International. & 0 \\
+        \hline
+        9 & Eggman è un personaggio che appare per la prima volta in Sonic the Hedgehog nel 1991. È un esperto di ingegneria robotica che vuole conquistare il mondo di Sonic. & 1 \\
+        \hline
+        10 & Sonic Runners (2015), Sonic Dash 2: Sonic Boom (2017), Sonic Runners Adventure (2017), Sonic Forces: Speed Battle (2017), Sonic Speed Simulator (2022) & 1 \\
+        \hline
+    \end{tabular}
+    \caption{Risposte al set di domande complesse date dalla seconda versione del RALM (File Docx)}
+\end{table}
+
+\textbf{Correttezza:} 5/10
+
+\subsubsection{Pdf}
+
 \subsubsection{Grafico Risposte corrette su versione}
-Qui di seguito c'è il grafico che evidenzia l'andamento della quantità delle risposte corrette che vengono date dal RALM nelle sue varie versioni.
+Qui di seguito c'è il grafico che evidenzia l'andamento della quantità delle risposte corrette che vengono date dal RALM nelle sue varie versioni e per i tre formati prestabiliti.
 
-
-    
-\begin{figure}
+\begin{figure}[H]
     
     \centering
     \begin{tikzpicture}
@@ -249,14 +388,13 @@ Qui di seguito c'è il grafico che evidenzia l'andamento della quantità delle r
             grid=major,
             width=12cm,
             height=10cm,
-            xtick={1, 2, 3, 4}, 
+            xtick={1, 2, 3}, 
             ytick={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
         ]
         \addplot coordinates {
             (1, 8)
             (2, 10)
             (3, 0)
-            (4, 0)
         };
         \addlegendentry{Semplici}
 
@@ -264,7 +402,6 @@ Qui di seguito c'è il grafico che evidenzia l'andamento della quantità delle r
             (1, 0.8)
             (2, 5)
             (3, 0)
-            (4, 0)
         };
         \addlegendentry{Complesse}
         
@@ -273,6 +410,40 @@ Qui di seguito c'è il grafico che evidenzia l'andamento della quantità delle r
     \caption{Grafico risposte corrette su versione - HTML}
 
 \end{figure}
+    
+\begin{figure}[H]
+    
+    \centering
+    \begin{tikzpicture}
+        \centering
+        \begin{axis}[
+            xlabel={Versione},
+            ylabel={Risposte corrette},
+            grid=major,
+            width=12cm,
+            height=10cm,
+            xtick={1, 2, 3}, 
+            ytick={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+        ]
+        \addplot coordinates {
+            (1, 8)
+            (2, 10)
+            (3, 0)
+        };
+        \addlegendentry{Semplici}
 
-\subsubsection{Docx}
-\subsubsection{Pdf}
+        \addplot coordinates {
+            (1, 1.5)
+            (2, 5)
+            (3, 0)
+        };
+        \addlegendentry{Complesse}
+        
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Grafico risposte corrette su versione - Docx}
+
+\end{figure}
+
+
+

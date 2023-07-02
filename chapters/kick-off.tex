@@ -1,5 +1,5 @@
 \chapter{Studio e ricerca preliminare}
-\label{cap:analisi preliminare}
+\label{cap:analisi-preliminare}
 
 \intro{In questo capitolo verranno illustrate nel dettaglio le varie metodologie individuate per poter rendere di maggiore qualità le risposte fornite dal RALM tramite il raggiungimento dei diversi obiettivi.} \\
 
@@ -7,16 +7,17 @@
 I documenti, prima di essere passati al RALM, devono essere rielaborati in modo tale da renderli più comprensibili al modello.
 I problemi principali affrontati, e quindi i requisiti, in questo stage sono stati i seguenti:
 \begin{itemize}
-    \item Linearizzazione delle tabelle: gli strumenti utilizzati per estrapolare il testo non permettevano di linearizzare 
-    la tabella in una maniera tale da renderla "leggibile" al RALM;
-    \item Chunking: il contenuto viene diviso in porzioni di testo più piccole chiamate \emph{chunk} per poter essere interpretate dal modello. A ogni domanda vengono analizzati tutti i 
+    \item \textbf{Linearizzazione delle tabelle}: gli strumenti utilizzati per estrapolare il testo non permettevano di linearizzare 
+    la tabella in una maniera tale da renderla comprensibile al RALM;
+    \item \textbf{Chunking}: il contenuto viene diviso in porzioni di testo più piccole chiamate \emph{chunk} per poter essere interpretate dal modello. A ogni domanda vengono analizzati tutti i 
     diversi chunk e ad ognuno di essi viene assegnato uno \emph{score} che stabilirà quale di loro ha il contenuto più adatto da cui poter ricavare la risposta. 
     \noindent C'è bisogno quindi di individuare la struttura del contenuto e suddividerlo in modo sensato all'interno dei chunk.
-    Inizialmente il testo veniva separato tramite una sliding window che consentiva di formare dei chunk con la parte finale del chunk precedente e la parte successiva presente nel documento in modo tale da non perdere in significato di alcune frasi evetualemente spezzate in punti non adatti.
-    \noindent Con questa metodologia però si rischia di accorpare nello stesso chunk informazioni appartenenti a diversi paragrafi e che, quindi, potrebbero essere incoerenti fra loro.
+    Inizialmente il testo veniva separato tramite una \emph{\gls{sliding window}}\glsfirstoccur che consentiva di formare dei chunk con la parte finale del chunk precedente e la parte successiva presente nel documento in modo tale da non perdere in significato di alcune frasi evetualemente spezzate in punti non adatti.
+    \noindent Con questa metodologia però si rischia di accorpare nello stesso chunk informazioni appartenenti a diversi paragrafi e che, quindi, potrebbero essere incoerenti fra loro;
+    \item \textbf{Pulizia del testo}: i tool utilizzati per l'estrazione del testo dai vari documenti spesso riportano ripetizioni di caratteri consecutivi, come spazi e newline (e altro), che occuperanno poi spazio inutilmente al'interno dei chunk.
 \end{itemize}
 
-I fomrmati dei file considerati in questo stage sono stati i seguenti:
+I formati dei file considerati in questo stage sono stati i seguenti:
 \begin{itemize}
     \item Pdf;
     \item Docx;
@@ -25,7 +26,7 @@ I fomrmati dei file considerati in questo stage sono stati i seguenti:
 
 \section{Ricerca e studio preliminare}
 \subsection{Table Question Answering}
-Nel Table Question Answering (TQA) le domande poste dall'utente cercano di avere una risposta precisa con i dati ricavati da delle tabelle.
+Nel \gls{TQA} le domande poste dall'utente cercano di avere una risposta precisa con i dati ricavati da delle tabelle.
 L'obiettivo è quello di migliorare l'accesso e la comprensione delle informazioni strutturate contenute nelle tabelle.
 
 \subsubsection{Linearizzazione delle tabelle}
@@ -58,32 +59,36 @@ perdendo alcune informazioni necessarie per la lettura effettuata dal RALM.
 \end{tcolorbox}
 \noindent La tabella linearizzata perde quindi le informazioni sulla struttura e come risultato abbiamo una serie di valori posti senza avere troppo senso in fase di lettura per un RALM. \\
 
+\subsubsection{L'idea}
 \noindent Dopo un attenta ricerca effettuata su vari documenti scientifici sono riuscito ad individuare un modo semplice ed efficace per mantenere 
 l'informazione nella tabella linearizzata e la sua struttura:
 \begin{itemize}
     \item All'inizio di ogni riga viene scritto "Riga n->" dove n sta per il numero della riga;
     \item Per ogni cella presente nella tabella vengono concatenati il valore dell'intestazione della colonna dov'è presente il valore e il valore della cella separati dal carattere ":";
     \item Ogni cella viene poi separata dall'altra con il carattere "|".
+    \item A chiudere la riga viene inserito il carattere '\n' (newline).
 \end{itemize} 
 
 Quindi la tabella \ref{tab:esempio-cibo} viene linearizzata in questo modo:
 \begin{tcolorbox}[colback=white, colframe=black]
     Riga0->Cibo: Pennette rigate|Quantità:100g|Energia(KCal):359|Carboidrati(g): \\
-    71|Proteine(g):13| Riga1->Cibo: Latte|Quantità:100ml|Energia(KCal):47| \\
-    Carboidrati(g):4,9|Proteine(g):3,2| Riga2->Cibo: Banana|Quantità:100g \\
-    |Energia(KCal):89|Carboidrati(g):23|Proteine(g):1,1|
+    71|Proteine(g):13| \\
+    Riga1->Cibo: Latte|Quantità:100ml|Energia(KCal):47|Carboidrati(g):4,9|\\
+    Proteine(g):3,2| \\
+    Riga2->Cibo: Banana|Quantità:100g|Energia(KCal):89|Carboidrati(g):23|\\
+    Proteine(g):1,1|
 \end{tcolorbox}
 
 \subsection{Chunking}
 \paragraph{Procedimento}
 Il \emph{chunking} è il procedimento mediante il quale in contenuto testuale di un documento viene suddiviso in parti più piccole chiamate chunk.
-\noindent Per poter fornire una risposta ben strutturata viene utilizzato un \emph{Chat-Completion Model} che riceve in ingresso una richiesta e tramite quest'ultima è in grado di costruire una risposta ben strutturata.
+\noindent Per poter fornire una risposta ben strutturata viene utilizzato un \emph{\gls{Chat-Completion Model}}\glsfirstoccur che riceve in ingresso una richiesta e tramite quest'ultima è in grado di costruire una risposta ben strutturata.
 La richiesta è formata dalla domanda dell'utente seguita dai chunk a cui il motore di ricerca ha dato lo score più alto.
-Il modello in ingresso può prendere un numero limitato di \emph{token} quindi non gli si può dare l'intero contenuto del documento, ha bisogno di questa suddivisione.
+Il modello in ingresso può prendere un numero limitato di \emph{\gls{token}}\glsfirstoccur quindi non gli si può dare l'intero contenuto del documento, ha bisogno di questa suddivisione.
 
-\noindent Per poter capire al meglio il significato delle parole presenti in un determinato contesto è necessario avere spezzare i chunk in \emph{token}.
+\noindent Per poter capire al meglio il significato delle parole presenti in un determinato contesto è necessario dover spezzare i chunk in \emph{token}.
 Il \emph{token} indica una singola unità linguistica o comunque un elemento individuale all'interno di un testo e può rappresentare per esempio una parola, un simbolo di punteggiatura o anche una parte di una parola.
-Qui di seguito viene spiegato come il motore di ricerca è in grado di assegnare lo score ai vari chunk e quindi come si riesce a capire quali sono i chunk che come contenuto avranno probabilmente la risposta che si cerca.
+Qui di seguito viene spiegato come il motore di ricerca è in grado di assegnare lo score ai vari chunk e quindi come si riesce a capire quali sono i chunk che come contenuto avranno con maggior probabilità la risposta che si sta cercando.
 
 \subsubsection{Recupero delle informazioni}
 \label{subsubsec:rec-inf}
@@ -159,6 +164,44 @@ Ad ogni documento viene assegnato un punteggio che equivale alla somma dei recip
 
 \noindent In questo esempio abbiamo quindi che il miglior chunk da considerare è il chunk B seguito poi dal chunk A e dal C.
 
+\subsubsection{L'idea}
 
+Per migliorare la qualità del chunking sono state attuate due strategie:
+\begin{itemize}
+    \item Il chunk viene strutturato come segue: all'inizio sarà presente una lista di titoli consevutivi in ordine gerarchico per individuare il contesto del chunk. In base alla grandezza del chunk viene definita una quantità di token che definisce la lunghezza della lista dei titoli. Se questa grandezza viene superata si scarta il titolo più alto in ordine gerarchico fino a quando i token effettivi saranno minori rispetto alla quantita prestabilita.
+    La grandezza scelta per la lista dei titoli equivale ai due ottavi della grandezza del chunk mentre il resto viene lasciato per il contenuto.
+    \noindent Il contenuto del paragrafo viene concatenato separando le tabelle dal testo:
+    \begin{itemize}
+        \item Se viene trovata una tabella si cerca di inserire le intere righe all'interno del chunk in modo tale da non perdere informazioni sui dati;
+        \item Se viene trovato del testo normale viene utilizzata la sliding window.
+    \end{itemize}
 
+    Come esempio un documento potrebbe avere la seguente struttura:
+    \begin{tcolorbox}[colback=white, colframe=black]
+        1 Titolo\\
+        testo\\
+        tabella\\
+        1.1 Sottotitolo\\
+        testo\\
+        1.1.1 Sottotitolo\\
+        testo\\
+        1.1.2 Sottotitolo\\
+        testo\\
+    \end{tcolorbox}
+
+    Assumiamo che ogni titolo è composto da 1 token, ogni componente testuale è composta da 6 token e ogni riga della tabella da 5 token. Il chunk può essere composto al massimo da 8 token.
+    \begin{tcolorbox}[colback=white, colframe=black]
+        \begin{itemize}
+            \item Chunk1: 1 Titolo:testo (7 token)
+            \item Chunk2: 1 Titolo: prima riga della tabella (6 token)
+            \item Chunk3: 1 Titolo: seconda riga della tabella (6 token)
+            \item Chunk4: 1 Titolo| 1.1 Sottotitolo: testo (8 token)
+            \item Chunk5: 1.1 Sottotitolo | 1.1.1 Sottotitolo: testo (8 token -> Qui viene eliminato "1 Titolo" perchè sennò si sforerebbe la grandezza prestabilita)
+            \item Chunk6: 1.1 Sottotitolo | 1.1.2 Sottotitolo: testo (8 token -> Come nel chunk precedente viene eliminato "1 Titolo")
+        \end{itemize}
+    \end{tcolorbox}
+    
+    \item Pulizia del testo: le serie di caratteri  (come spazi, newline, '-', '*', altro), scelti prima di effettuare la pulizia, vengono sostituiti con un unico carattere dello stesso tipo.
+    \noindent Ogni carattere è composto da un singolo token e quindi i chunk nel caso in cui non si eliminassero queste ripetizioni avrebbero dei caratteri superflui che occuperebbero spazio inutilmente, ci sarebbe il rischio di creare più chunk del dovuto.  
+\end{itemize}
 

@@ -2,23 +2,19 @@
 \label{cap:introduzione}
 
 In questo capitolo viene spiegato com'è strutturato questo documento e vengono introdotti i RALM.
-Inoltre viene presentata l'azienda presso quale è stato svolto lo stage e vengono 
-fornite le motivazioni per i quale è nato progetto e il suo scopo
+Inoltre viene presentata l'azienda presso quale è stato svolto lo stage, vengono 
+fornite le motivazioni per i quale è nato progetto e il suo scopo.
 
 \section{Organizzazione del testo}
 
 \begin{description}
-    \item[{\hyperref[cap:processi-metodologie]{Il secondo capitolo}}] descrive ...
+    \item[{\hyperref[cap:analisi-preliminare]{Il secondo capitolo}}] decrive gli obiettivi nel dettaglio e mostra le varie soluzioni applicate per poter rendere migliore la qualità delle risposte del RALM;
     
-    \item[{\hyperref[cap:descrizione-stage]{Il terzo capitolo}}] approfondisce ...
+    \item[{\hyperref[cap:progettazione-codifica]{Il terzo capitolo}}] approfondisce le tecnologie utilizzate nel progetto, la progettazione e la codifica di quanto sviluppato;
     
-    \item[{\hyperref[cap:analisi-requisiti]{Il quarto capitolo}}] approfondisce ...
+    \item[{\hyperref[cap:verifica-validazione]{Il quarto capitolo}}] illustra i vari test effettuati sul RALM e mostra i risultati ottenuti ogni modifica attuata;
     
-    \item[{\hyperref[cap:progettazione-codifica]{Il quinto capitolo}}] approfondisce ...
-    
-    \item[{\hyperref[cap:verifica-validazione]{Il sesto capitolo}}] approfondisce ...
-    
-    \item[{\hyperref[cap:conclusioni]{Nel settimo capitolo}}] descrive ...
+    \item[{\hyperref[cap:conclusioni]{Nel quinto capitolo}}] vengono scritte le conclusioni riguardo al progetto svolto.
 \end{description}
 
 Riguardo la stesura del testo, relativamente al documento sono state adottate le seguenti convenzioni tipografiche:
@@ -41,11 +37,11 @@ Fondata nel 1990 a Rubano (Padova) è oggi la prima azienda italiana nel settore
 I \gls{LLM} sono dei modelli di apprendimento automatico in grado di generare testi coerenti e informativi.
 Hanno rivoluzionato il campo dei \gls{NLP} vengono impiegati in diverse applicazioni, un esempio possono essere i chatbot.
 Questi ultimi sfruttano la capacità dei LLM di interagire tramite il linguaggio naturale con gli utenti.
-I Retrieval Augmented Language Model (RALM) non sono altro che dei LLM che permettono di utilizzare una fonte esterna di conoscenza (come ad esempio una collezione di documenti)
+I Retrieval Augmented Language Model (RALM) non sono altro che dei LLM, basati sul \emph{\gls{question answering}}\glsfirstoccur, che permettono di utilizzare una fonte esterna di conoscenza (come ad esempio una collezione di documenti)
 per fornire informazioni aggiuntive al modello durante la generazione di testo.
 Il modello effettua una query alla fonte esterna usando l'input dell'utente come chiave di ricerca e riceve una lista di documenti rilevanti.
 Seleziona, poi, uno o pù documenti da usare come contesto aggiuntivo e li combina con l'input originale per produrre il testo finale.
-Questo approccio permette di generate testi più informativi, accurati e diversificati sfruttando la conoscenza dovuta alla presenza della fonte esterna.
+Questo approccio permette di generare testi più informativi, accurati e diversificati sfruttando la conoscenza dovuta alla presenza della fonte esterna.
 
 \section{Il progetto}
 Per poter garantire la qualità delle risposte generate dal RALM è necessario che i documenti a disposizione siano in formato testuale e che il loro contenuto abbia tutta l'informazione 
@@ -59,14 +55,14 @@ Una prima versione di backend dei servizi di estrazione di testo era già dispon
 
 \begin{itemize}
     \item Obbligatori:
-    \subitem Parsing ad-hoc per documenti in cui le componenti grafiche contribuiscono alla semantica (es. tabelle e immagini);
+    \subitem \gls{Parsing}\glsfirstoccur ad-hoc per documenti in cui le componenti grafiche contribuiscono alla semantica (es. tabelle e immagini);
     \subitem Estrapolazione, per alcuni formati dove sia possibile, della struttura logica del documento (es. individuando titoli e paragrafi);
     \subitem Pulizia del testo estratto dai documenti (es. eliminazione delle componenti inutili come gli indici e i sommari).
     \item Desiderabili:
-    \subitem Interpretazione delle immagini allo scopo di arricchire i chunk in cui sono contestualizzate. 
+    \subitem Interpretazione delle immagini allo scopo di arricchire i \gls{chunk}\glsfirstoccur in cui sono contestualizzate. 
 \end{itemize}
 
-\subsection{Pianificazione delle attività}
+s\subsection{Pianificazione delle attività}
 \begin{table}[H]
     \centering
     \begin{tabular}{p{2cm} p{8cm} p{2cm}}

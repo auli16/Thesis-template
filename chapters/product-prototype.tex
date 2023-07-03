@@ -6,7 +6,7 @@
 \section{Tecnologie e strumenti}
 \label{sec:tecnologie-strumenti}
 
-Di seguito viene data una panoramica delle tecnologie e strumenti utilizzati.
+Di seguito viene data una panoramica delle tecnologie e degli strumenti utilizzati per sviluppare il progetto.
 \subsection{Python}
 Python offre diverse librerie utili per l'apprendimento automatico, il trattamento del linguaggio naturale e molto altro ancora.
 \subsection{Jupiter Notebook}
@@ -75,6 +75,8 @@ ExtractionTableHTML, ExtractionTableDocx, ExtractionTablePdf e ExtractionTableDe
 
 \subsection{FactoryExtractTable}
 Viene presentata una funzione \textbf{factoryExtractTable} che prende in ingresso un file path e in base al suo formato istanzia un oggetto di tipo ExtractionTable.
+Quando viene inserito un file in un formato che non corrisponde a uno dei tre principali viene instanziato un oggetto di tipo ExtractionTableDefault.
+Si è deciso di sviluppare questa classe per avere comunque delle possibilità nella sostituizione delle tabelle nel caso in cui si riesce a convertire discretamente il documento in XHTML.
 
 \subsection{TextExtractor}
 TextExtractor mette a disposizione la funzione \textbf{extractText} che prende in ingresso un file path e un booleano \emph{getText}.
@@ -84,7 +86,7 @@ Questa funzione ritorna:
     \item Con getText = True, il contenuto del documento convertito il stringa (testo non strutturato). 
 \end{itemize}
 
-Per lavorare più facilmente con il contenuto XHTML dei pdf, al \emph{body} viene aggiunto un primo titolo \emph{h1} con contenuto il nome del file come primo tag e vengono estratti tutti i tag da dentro i \emph{div} che rappresentano le pagine (individuabili con BeautifulSoup perchè hanno \emph{"class=page"}).
+Per lavorare più facilmente con il contenuto XHTML prodotto dalla conversione dei pdf, al \emph{body} viene aggiunto un primo titolo \emph{h1} con contenuto il nome del file come primo tag e vengono estratti tutti i tag da dentro i \emph{div} che rappresentano le pagine (individuabili con BeautifulSoup perchè hanno \emph{"class=page"}).
 
 \subsection{Sections.py}
 Modulo creato che contiene funzioni utili per convertire un XHTML in una struttura ad albero rinominata "Sezione"

@@ -4,7 +4,7 @@
 \intro{In questo capitolo verranno illustrate nel dettaglio le varie metodologie individuate per poter rendere di maggiore qualità le risposte fornite dal RALM tramite il raggiungimento dei diversi obiettivi.} \\
 
 \section{Analisi dei requisiti}
-I documenti, prima di essere passati al RALM, devono essere rielaborati in modo tale da renderli più comprensibili al modello.
+I documenti, prima di essere passati al RALM, devono essere rielaborati in modo tale da essere resi più comprensibili al modello.
 I problemi principali affrontati, e quindi i requisiti, in questo stage sono stati i seguenti:
 \begin{itemize}
     \item \textbf{Linearizzazione delle tabelle}: gli strumenti utilizzati per estrapolare il testo non permettevano di linearizzare 
@@ -31,7 +31,7 @@ L'obiettivo è quello di migliorare l'accesso e la comprensione delle informazio
 
 \subsubsection{Linearizzazione delle tabelle}
 \label{subsubsec-lin-tab}
-Una tabella può assumere moltissime strutture e per questo abbiamo deciso di considerare solamente le tabelle che avessero come prima riga 
+Una tabella può assumere moltissime strutture e per questo è stato deciso di considerare solamente le tabelle che avessero come prima riga 
 un'intesazione orizzontale e nelle righe successive i vari dati.
 
 \begin{table}[H]
@@ -66,7 +66,7 @@ l'informazione nella tabella linearizzata e la sua struttura:
     \item All'inizio di ogni riga viene scritto "Riga n->" dove n sta per il numero della riga;
     \item Per ogni cella presente nella tabella vengono concatenati il valore dell'intestazione della colonna dov'è presente il valore e il valore della cella separati dal carattere ":";
     \item Ogni cella viene poi separata dall'altra con il carattere "|".
-    \item A chiudere la riga viene inserito il carattere '\n' (newline).
+    \item A chiudere la riga viene inserito il carattere di escape per newline.
 \end{itemize} 
 
 Quindi la tabella \ref{tab:esempio-cibo} viene linearizzata in questo modo:
@@ -168,12 +168,19 @@ Ad ogni documento viene assegnato un punteggio che equivale alla somma dei recip
 
 Per migliorare la qualità del chunking sono state attuate due strategie:
 \begin{itemize}
-    \item Il chunk viene strutturato come segue: all'inizio sarà presente una lista di titoli consevutivi in ordine gerarchico per individuare il contesto del chunk. In base alla grandezza del chunk viene definita una quantità di token che definisce la lunghezza della lista dei titoli. Se questa grandezza viene superata si scarta il titolo più alto in ordine gerarchico fino a quando i token effettivi saranno minori rispetto alla quantita prestabilita.
+    \item Il chunk viene strutturato come segue: all'inizio sarà presente una lista di titoli consevutivi in ordine gerarchico per individuare il contesto del chunk. In base alla grandezza del chunk viene definita una quantità di token che definisce la lunghezza della lista dei titoli. Se questa grandezza viene superata si scarta il titolo più alto in ordine gerarchico fino a quando i token effettivi saranno minori rispetto alla quantità prestabilita.
     La grandezza scelta per la lista dei titoli equivale ai due ottavi della grandezza del chunk mentre il resto viene lasciato per il contenuto.
     \noindent Il contenuto del paragrafo viene concatenato separando le tabelle dal testo:
     \begin{itemize}
         \item Se viene trovata una tabella si cerca di inserire le intere righe all'interno del chunk in modo tale da non perdere informazioni sui dati;
-        \item Se viene trovato del testo normale viene utilizzata la sliding window.
+        \item Se viene trovato del testo normale viene utilizzata la sliding window per inserire parte del contenuto del chunk precedente all'inzio del nuovo chunk.
+    \end{itemize}
+
+    Quando viene utilizzata la sliding window quindi si creerà l'\emph{\gls{overlap}}\glsfirstoccur del contenuto.
+    L'overlap è utile per due motivi:
+    \begin{itemize}
+        \item Se ci sono n chunk consecutivi nella lista dei chunk migliori è possibile unirli in modo deterministico, inoltre anche il modello è in grando di riconoscere questa continuità;
+        \item Senza di esso ci sarebbero delle frasi spezzate prive di significato all'interno dei chunk.
     \end{itemize}
 
     Come esempio un documento potrebbe avere la seguente struttura:

@@ -4,18 +4,7 @@
 \intro{In questo capitolo verranno illustrate nel dettaglio le varie metodologie individuate per poter rendere di maggiore qualità le risposte fornite dal RALM tramite il raggiungimento dei diversi obiettivi.} \\
 
 \section{Analisi dei requisiti}
-I documenti, prima di essere passati al RALM, devono essere rielaborati in modo tale da essere resi più comprensibili al modello.
-I problemi principali affrontati, e quindi i requisiti, in questo stage sono stati i seguenti:
-\begin{itemize}
-    \item \textbf{Linearizzazione delle tabelle}: gli strumenti utilizzati per estrapolare il testo non permettevano di linearizzare 
-    la tabella in una maniera tale da renderla comprensibile al RALM;
-    \item \textbf{Chunking}: il contenuto viene diviso in porzioni di testo più piccole chiamate \emph{chunk} per poter essere interpretate dal modello. A ogni domanda vengono analizzati tutti i 
-    diversi chunk e ad ognuno di essi viene assegnato uno \emph{score} che stabilirà quale di loro ha il contenuto più adatto da cui poter ricavare la risposta. 
-    \noindent C'è bisogno quindi di individuare la struttura del contenuto e suddividerlo in modo sensato all'interno dei chunk.
-    Inizialmente il testo veniva separato tramite una \emph{\gls{sliding window}}\glsfirstoccur che consentiva di formare dei chunk con la parte finale del chunk precedente e la parte successiva presente nel documento in modo tale da non perdere in significato di alcune frasi evetualemente spezzate in punti non adatti.
-    \noindent Con questa metodologia però si rischia di accorpare nello stesso chunk informazioni appartenenti a diversi paragrafi e che, quindi, potrebbero essere incoerenti fra loro;
-    \item \textbf{Pulizia del testo}: i tool utilizzati per l'estrazione del testo dai vari documenti spesso riportano ripetizioni di caratteri consecutivi, come spazi e newline (e altro), che occuperanno poi spazio inutilmente al'interno dei chunk.
-\end{itemize}
+
 
 I formati dei file considerati in questo stage sono stati i seguenti:
 \begin{itemize}
@@ -47,7 +36,7 @@ un'intesazione orizzontale e nelle righe successive i vari dati.
         Banana & 100g & 89 & 23 & 1,1 \\
         \hline
     \end{tabular}
-    \caption{Esempio di tabella presa in considerazione (valori approssimativi)}
+    \caption{Esempio di tabella presa in considerazione (valori approssimativi).}
     \label{tab:esempio-cibo}
 \end{table}
 \noindent Come specificato precedentemente le tabelle al momento dell'estrazione venivano linearizzate 
@@ -84,7 +73,7 @@ Quindi la tabella \ref{tab:esempio-cibo} viene linearizzata in questo modo:
 Il \emph{chunking} è il procedimento mediante il quale in contenuto testuale di un documento viene suddiviso in parti più piccole chiamate chunk.
 \noindent Per poter fornire una risposta ben strutturata viene utilizzato un \emph{\gls{Chat-Completion Model}}\glsfirstoccur che riceve in ingresso una richiesta e tramite quest'ultima è in grado di costruire una risposta ben strutturata.
 La richiesta è formata dalla domanda dell'utente seguita dai chunk a cui il motore di ricerca ha dato lo score più alto.
-Il modello in ingresso può prendere un numero limitato di \emph{\gls{token}}\glsfirstoccur quindi non gli si può dare l'intero contenuto del documento, ha bisogno di questa suddivisione.
+Il modello in ingresso può prendere un numero limitato di \emph{token} quindi non gli si può dare l'intero contenuto del documento, ha bisogno di questa suddivisione.
 
 \noindent Per poter capire al meglio il significato delle parole presenti in un determinato contesto è necessario dover spezzare i chunk in \emph{token}.
 Il \emph{token} indica una singola unità linguistica o comunque un elemento individuale all'interno di un testo e può rappresentare per esempio una parola, un simbolo di punteggiatura o anche una parte di una parola.
@@ -142,7 +131,7 @@ Ad ogni documento viene assegnato un punteggio che equivale alla somma dei recip
         3 & C & A \\
         \hline
     \end{tabular}
-    \caption{Esempio di ranking per i documenti A, B, C tramite BM25 e Vector Search}
+    \caption{Esempio di ranking per i documenti A, B, C tramite BM25 e Vector Search.}
 \end{table}
 
 \noindent Gli RRF score dei documenti A, B, C sono i seguenti:
@@ -159,7 +148,7 @@ Ad ogni documento viene assegnato un punteggio che equivale alla somma dei recip
         C & 1/3 + 1/2 = 0.83\\
         \hline
     \end{tabular}
-    \caption{Esempio di calcolo del RRF score per i documenti A, B, C}
+    \caption{Esempio di calcolo del RRF score per i documenti A, B, C.}
 \end{table}
 
 \noindent In questo esempio abbiamo quindi che il miglior chunk da considerare è il chunk B seguito poi dal chunk A e dal C.
@@ -210,5 +199,67 @@ Per migliorare la qualità del chunking sono state attuate due strategie:
     
     \item Pulizia del testo: le serie di caratteri  (come spazi, newline, '-', '*', altro), scelti prima di effettuare la pulizia, vengono sostituiti con un unico carattere dello stesso tipo.
     \noindent Ogni carattere è composto da un singolo token e quindi i chunk nel caso in cui non si eliminassero queste ripetizioni avrebbero dei caratteri superflui che occuperebbero spazio inutilmente, ci sarebbe il rischio di creare più chunk del dovuto.  
+\end{itemize}
+
+\subsection{Pianificazione delle attività}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{2cm} p{8cm} p{2cm}}
+        \hline
+        Numero attività & Attività & Ore previste \\
+        \hline
+        1 & Studio introduttivo su Natural Language Processing e Large Language Model & 16 \\
+        \hline
+        2 & Studio delle tecniche di estrazione di testo e dei principali tool nell'ambito dell'NLP & 16 \\
+        \hline
+        3 & Studio dell'attuale implementazione del chatbot basato su retrueval-augmented LLM & 16 \\
+        \hline
+        4 & Analisi dei requisiti con studio delle casistiche da gestire & 30 \\
+        \hline
+        5 & Progettazione delle varie componenti richieste nel paragrafo  & 70 \\
+        \hline
+        6 & Implementazione del software & 100 \\
+        \hline
+        7 & Test e sperimentazione del software & 24 \\
+        \hline
+        8 & Documentazione & 48 \\
+        \hline
+    \end{tabular}
+    \caption{Tabella di pianificazione delle attività.}
+\end{table}
+
+\subsection{Diagramma di Gantt delle attività}
+Viene mostrato il diagramma di Gantt delle attività svolte durante le nove settimane dello stage.
+
+\begin{figure}[H]
+    \centering
+    \begin{ganttchart}[
+        expand chart=\textwidth,
+        hgrid=true,
+        vgrid=true
+        ]{1}{9}
+        \gantttitlelist{1,...,9}{1} \\
+        \ganttbar{Studio NLP e LLM}{1}{1} \\
+        \ganttbar{Studio tecniche e tool esistenti}{1}{2} \\
+        \ganttbar{Studio attuale implementazione chatbot}{2}{2} \\
+        \ganttbar{Analisi dei requisiti}{2}{3} \\
+        \ganttbar{Progettazione}{3}{5} \\
+        \ganttbar{Implementazione del software}{5}{8} \\
+        \ganttbar{Test e sperimentazione del software}{8}{9} \\
+        \ganttbar{Documentazione}{1}{9} 
+    \end{ganttchart}
+    \caption{Diagramma di Gantt delle attività.}
+\end{figure}
+
+\subsubsection{Obbiettivi}
+Una prima versione di backend dei servizi di estrazione di testo era già disponibile e lo scopo di questo progetto era quello di migliorare proprio quest'ultimo raggiungendo i seguenti obbiettivi:
+
+\begin{itemize}
+    \item Obbligatori:
+    \subitem \gls{Parsing}\glsfirstoccur ad-hoc per documenti in cui le componenti grafiche contribuiscono alla semantica (es. tabelle e immagini);
+    \subitem Estrapolazione, per alcuni formati dove sia possibile, della struttura logica del documento (es. individuando titoli e paragrafi);
+    \subitem Pulizia del testo estratto dai documenti (es. eliminazione delle componenti inutili come gli indici e i sommari).
+    \item Desiderabili:
+    \subitem Interpretazione delle immagini allo scopo di arricchire i \gls{chunk}\glsfirstoccur in cui sono contestualizzate. 
 \end{itemize}
 

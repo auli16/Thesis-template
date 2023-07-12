@@ -47,7 +47,7 @@ La parte di codice sviluppata per questo progetto integra la parte di logica del
     \caption{Architettura della parte di codice implementata nel backend.}
 \end{figure}
 
-\noindent L'algoritmo prevede come risultato la generazione dei chunk, ma prima di poterli creare c'è bisogno di rielaborare i diversi elementi semantici presi in considerazione.
+\noindent L'algoritmo prevede come risultato la generazione dei chunk secondo i criteri specificati nel paragrafo \ref{subsubsec:ideachunking}, ma prima di poterli creare c'è bisogno di rielaborare i diversi elementi semantici presi in considerazione.
 La classe \textbf{TextExtractor} definisce una funzione \textbf{extractText} che prepara il contenuto del documento alla generazione dei chunk. Inizialmente estrae e converte il testo in XHTML grazie a Tika.
 \\\\La parte successiva alla conversione è quella che riguarda l'estrazione delle tabelle dai documenti e la sostituzione di queste ultime linearizzate all'interno del testo che è una parte di algoritmo che varia per i diversi tipi di formato, per questo mi sono ricondotto a utilizzare 
 il \gls{design pattern}\glsfirstoccur \textbf{\gls{strategy}}\glsfirstoccur: viene definita una classe astratta \textbf{AbstractExtractionTable} che prevede l'implmenetazione di alcune funzioni come \textbf{ExtractTable} e \textbf{replaceTab} che estraggono la tabella e la sostituiscono con la versione linearizzata all'interno del documento
@@ -55,12 +55,12 @@ a seconda del formato preso in considerazione (\textbf{ExtractionTableHTML, Extr
 Nel caso in cui il formato del file inserito non rientra fra quelli presi in considerazione o ancora non è stata implementata una classe per quest'ultimo, viene utilizzata la classe \textbf{ExtractionTableDefault}: ho deciso di implementare questa classe per avere comunque delle possibilità nella sostituizione delle tabelle nel caso in cui si riesca a convertire discretamente il documento in XHTML tramite Tika.
 Se vengono trovate poi delle tabelle all'interno del contenuto tramite BeautifulSoup allora si potranno estrarre tramite Pandas e successivamente sostiure con la linearizzazione.
 Per instanziare l'oggetto del tipo ExtractionTable corretto viene utilizzata la funzione \textbf{factoryExtractTable}. 
-\\\\Prima di concludere con la funzione extractText c'è da considerare il caso in cui Tika non riesca a convertire correttamente il contenuto in XHTML e lo fa come spiegato nel paragrafo \ref{subsec:ideaProg}. I problema principale essenzialmente è l'assenza di header.
+\\\\Prima di concludere con la funzione extractText c'è da considerare il caso in cui Tika non riesca a convertire correttamente il contenuto in XHTML e lo fa come spiegato nel paragrafo \ref{subsec:ideaProg}. Il problema principale, essenzialmente, è l'assenza di header.
 Nel caso in cui Tika non riesca a convertire correttamente, quindi, come primo figlio del tag \emph{body} viene inserito un tag \emph{h1} che contiene il titolo del file.
 Inoltre per semplficare il lavoro che dovrà essere attuato poi in fase di chunking tutti i tag figli presenti nei tag \emph{div} che rappresentano le pagine vengono estratti e resi figli del \emph{body}.
 Questo viene fatto perchè, tramite BeautifulSoup, ha più senso passare da un tag al suo sibling successivo piuttosto che al tag successivo (che potrebbe essere anche un figlio): al momento dell'estrazione del contenuto se estraggo il contenuto di un tag \emph{table} verrà estratto tutto il testo presente nella tabella, se passo al tag successivo (che potrebbe essere un \emph{thead}) estrarrò di nuovo il contenuto del figlio avendo così delle informazioni duplicate.
 \\\\Al fine di semplficare le operazioni da effettuare sul codice XHTML ho deciso di creare un modulo pyhton \textbf{Section.py} che espone la funzione \textbf{makeSection}: questa funzione converte il codice in una struttura ad albero chiamata \emph{Sezione}.
-Ogni oggetto Sezione è composto dal titolo del paragrafo e dal suo contenuto. Il contenuto è una lista di elementi che può contenere testo o può contenere altre sezioni nel caso in cui ci siano dei sottoparagrafi.
+Ogni oggetto Sezione è composto dal titolo del paragrafo (che vengono ricavati dagli header presenti nell'XHTML) e dal suo contenuto. Il contenuto è una lista di elementi che può contenere testo o può contenere altre sezioni nel caso in cui ci siano dei sottoparagrafi.
 \\\\Infine, grazie alla funzione \textbf{chunking} presente nel modulo \textbf{Chunking.py} viene generata la lista di chunk del documento.
 Ogni oggetto Chunk è composto da:
 \begin{itemize}
@@ -70,8 +70,8 @@ Ogni oggetto Chunk è composto da:
     \item page (intero): numero della pagina da dove è stato preso il contenuto del chunk (ancora non utilizzato, messo per successivi aggiornamenti del codice). 
 \end{itemize}
 
-\noindent In questo momento i titoli, i parent dei titoli e il contenuto non venogono ancora concatenati, dopo essere entrati in possesso della lista dei Chunk, chi ci lavora può gestirlo come preferisce.
-L'operazione che viene fatta nel momento della creazione del chunk è la pulizia del testo: la funzione \textbf{cleanText} usa delle espressioni regolari che ricercano sequenze di determinati caratteri e li riduce ad un singolo carattere del tipo individuato, viene chiamata all'interno della funzione chunking.
+\noindent In questo momento i titoli, i parent dei titoli e il contenuto non venogono ancora concatenati così, dopo essere entrati in possesso della lista dei Chunk, chi ci lavora può gestirlo come preferisce.
+L'operazione che viene fatta nel momento della creazione del chunk è la pulizia del testo: la funzione \textbf{cleanText} usa delle espressioni regolari che ricercano sequenze di determinati caratteri uguali e li riduce ad un singolo carattere del tipo individuato, viene chiamata all'interno della funzione chunking.
 \\\\
 \noindent La parte dell'\textbf{applicazione} effettiva in questo momento è implementata tramite un Jupiter Notebook ed è il prototipo che mi è stato passato all'inizio dello stage.
 Quello che ho fatto è stato aggiungere le chiamate delle varie funzioni implementate per ottenere le tabelle linearizzate e il chunking migliorato all'interno.
@@ -83,7 +83,7 @@ La procedura che viene eseguita per far funzionare il prototipo è la seguente:
     \item Al contenuto vengono concatenati i titoli dei chunk uniti con i titoli parent tramite la funzione \textbf{createTitleForChunk} da Chunking.py come spiegato nel paragrafo \ref{subsubsec:ideachunking};
     \item I vari chunk vengono caricati sul motore di ricerca;
     \item Quando viene posta una domanda, vengono restituiti i 10 chunk con lo score più alto (hybrid search);
-    \item La richiesta (domanda + 10 chunk) viene consegnata al Chat-Completion Model che elabora le informazioni e restituisce una risposta alla domanda. 
+    \item La richiesta (domanda + n chunk, dove n è determinato dalla quantità di token che può prendere in ingresso il Chat-Completion Model) viene consegnata al Chat-Completion Model che elabora le informazioni e restituisce una risposta alla domanda. 
 \end{enumerate}
 
 

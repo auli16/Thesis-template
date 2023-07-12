@@ -7,6 +7,7 @@ Verranno illustrate nel dettaglio le varie metodologie individuate per poter ren
 \section{Analisi dei requisiti}
 
 \subsubsection{Requisiti}
+\label{subsec:requisiti}
 Una prima versione di backend dei servizi di estrazione di testo era già disponibile e lo scopo di questo progetto era quello di migliorare proprio quest'ultimo raggiungendo i seguenti obbiettivi:
 
 \begin{itemize}
@@ -30,8 +31,8 @@ Non sempre il RALM è in grado di fornire una risposta corretta o soddisfacente.
 Diverse sono state le criticità da risolvere durante lo sviluppo sia per quanto riguarda il rendere più comprensibile il contenuto al RALM, sia per quanto riguarda le conversioni dei documenti nei vari formati.
 Tika, il tool utilizzato per estrarre il contenuto in testo non strutturato, durante la conversione ha delle perdite sulla struttura del contenuto come ad esempio le perdite di informazioni sulla struttura delle tabelle oppure sulla struttura del documento in sè (titolo, paragrafi, sottoparagrafi).
 Per agevolare la comprensione del RALM, velocizzare le operazioni di ricerca dell'informazione e fare in modo di aumentare la probabilità che le risposte siano corrette è necessario trovare un modo per mantenere in maniera efficace queste strutture all'interno del testo semplice.
-Un vantaggio utile di Tika è che può anche convertire il contenuto in formati strutturati come l'XHTML.
-Grazie a questa funzione sarebbe già possibile individuare titoli, paragrafi e tabelle del documento ma, purtroppo, non in tutti i formati è possibile farlo: per i file HTML e Docx, dove c'è già una struttura di base, Tika riesce a identificare i vari elementi semantici, con i Pdf la questione risulta più complessa.
+Un vantaggio di Tika è che può anche convertire il contenuto in formati strutturati come l'XHTML.
+Grazie a questa funzione sarebbe già possibile individuare titoli, paragrafi e tabelle del documento ma, purtroppo, non è possibile farlo in tutti i formati: per i file HTML e Docx, dove c'è già una struttura di base, Tika riesce a identificare i vari elementi semantici, mentre con i Pdf la questione risulta più complessa.
 Inoltre, non sempre, Tika riesce a ottenere la struttura esatta della tabella rispetto a come è rappresentata.
 L'ultimo punto da analizzare è la questione delle ripetizioni di alcuni caratteri come segni di punteggiatura, newline e spazi: chiaramente Tika non è in grado di riconoscere quando ci sono degli elementi superflui all'interno del contenuto, è necessario quindi capire come fare per ridurre al minimo la quantità di caratteri all'interno del testo. 
 
@@ -236,6 +237,8 @@ Per migliorare la qualità del chunking sono state attuate due strategie:
 \end{itemize}
 
 \section{Pianificazione del lavoro}
+Le attività per sviluppare il lavoro e le ore previste per ognunga di esse sono riportate nella tabella successiva.
+Come si può notare dal diagramma di Gantt diverse attività si sovrappongono e questo accade perchè diverse di queste ultime hanno dei punti in comune. 
 
 \subsection{Pianificazione delle attività}
 \begin{table}[H]
@@ -262,6 +265,7 @@ Per migliorare la qualità del chunking sono state attuate due strategie:
         \hline
     \end{tabular}
     \caption{Tabella di pianificazione delle attività.}
+    \label{tab:preventivo}
 \end{table}
 
 \subsection{Diagramma di Gantt delle attività}

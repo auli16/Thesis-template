@@ -3,6 +3,11 @@
 
 \intro{In questo capitolo vengono riportati tutti i dati e le prove effettuate sul RALM per ogni modifica aggiunta}
 
+\section{Tipologia di Test}
+Inizialmente si pensava di effettuare i test sulle risposte del RALM tramite l'utilizzo di diverse metriche automatiche come \emph{BERTScore, BARTScore e ROUGE} e altre metriche individuate nell'articolo \cite{art:metriche} assieme alla valutazione umana.
+Per questioni di tempistiche, però, si è deciso di valutare la varie risposte solamente al livello manuale, umano.
+La valutazione umana, purtroppo, non è sempre affidabile però è stato il modo più semplice e rapido per capire di quanto è migliorata la qualità delle risposte.
+
 \section{Test}
 Come fonte di informazioni per il RALM sono state scelte cinque pagine di Wikipedia e sono state convertite nei formati desiderati (HTML, Pdf, Docx).
 La pagine scelte sono composte di testo e altri elementi semantici, tra cui le tabelle che hanno la struttura della tabella \ref{tab:esempio-cibo} spiegata nel paragrafo \nameref{subsubsec-lin-tab}
@@ -18,7 +23,7 @@ Sulla base di ciò a ogni risposta viene assegnato un valore tra 0 (risposta non
 \subsection{Domande}
 Sono stati creati due set da 10 domande l'uno, le domande sono state create in maniera tale da poter interrogare il modello sui dati presenti nelle tabelle dei vari documenti:
 \begin{itemize}
-    \item Set di domande semplici: domande che interrogano il RALM su singole celle delle tabelle, celle che hanno la stessa intestazione o su singole righe;
+    \item Set di domande semplici: domande che interrogano il RALM su una piccola quantità di celle delle tabelle;
     \item Set di domande complesse: domande che interrogano il RALM su diverse celle e che chiedono di fare diverse operazioni tra i dati presenti (es: somma, media).
 \end{itemize}
 
@@ -627,6 +632,7 @@ Nei seguenti paragrafi vengono riportate le risposte del RALM a ogni aggiornamen
         \hline
     \end{tabular}
     \caption{Risposte al set di domande semplici date dalla seconda versione del RALM (File Pdf).}
+    \label{tab:dSempPdfSec}
 \end{table}
 
 \textbf{Correttezza:} 8/10
@@ -789,6 +795,7 @@ Qui di seguito c'è il grafico che evidenzia l'andamento della quantità delle r
         \end{axis}
     \end{tikzpicture}
     \caption{Grafico risposte corrette su versione - HTML.}
+    \label{img:graficoHTML}
 
 \end{figure}
     
@@ -823,7 +830,7 @@ Qui di seguito c'è il grafico che evidenzia l'andamento della quantità delle r
         \end{axis}
     \end{tikzpicture}
     \caption{Grafico risposte corrette su versione - Docx.}
-
+    \label{img:graficoDocx}
 \end{figure}
 
 \begin{figure}[H]
@@ -857,8 +864,14 @@ Qui di seguito c'è il grafico che evidenzia l'andamento della quantità delle r
         \end{axis}
     \end{tikzpicture}
     \caption{Grafico risposte corrette su versione - Pdf.}
+    \label{img:graficoPdf}
 
 \end{figure}
 
-
-
+\section{Considerazioni}
+Come si può notare dai grafici \ref{img:graficoHTML}, \ref{img:graficoDocx} e \ref{img:graficoPdf} per le domande semplici, al livello base, c'era già un'alta percentuale di risposte corrette e già da dopo la linearizzazione delle tabelle sia per gli HTML che per i Docx i risultati sono stati ottimi.
+Per i Pdf, invece, il 10/10 è stato raggiunto dopo aver milgiorato il chunking e i casi in cui la risposta fornita dal RALM non è corretta, come le numero 2 e 7 presenti nella tabella \ref{tab:dSempPdfSec} sono dovuti al fatto che la tabella viene spezzata e divisa in chunk diversi in maniera non giusta e quindi vengono perse delle informazioni sulla struttura o addirittura dati di alcune righe per esempio.
+Questa cosa sarebbe potuta succedere anche con i documenti HTML e Docx. 
+\\\\
+\noindent Per le domande complesse invece abbiamo un notevole miglioramento per gli HTML e i Docx e un discreto miglioramento per i Pdf.
+La differenza tra i valori finali è dovuta sicuramente al fatto che per i Pdf non si è in grado di trovare una struttura del testo tramite gli strumenti di estrazione a disposizione, quindi si perde la possibilità di inserire titoli e titoli parent all'interno del chunk stesso e di poter riconoscere la loro posizione all'interno della struttura del testo.

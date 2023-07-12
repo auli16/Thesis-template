@@ -1,44 +1,41 @@
 \chapter{Progettazione e codifica}
 \label{cap:progettazione-codifica}
 
-\intro{Breve introduzione al capitolo}\\
+\intro{In questo capitolo vengono discusse le scelte progettuali effettuate per poter sviluppare al meglio il lavoro in questione}\\
 
 \section{Tecnologie e strumenti}
 \label{sec:tecnologie-strumenti}
 
-Di seguito viene data una panoramica delle tecnologie e degli strumenti utilizzati per sviluppare il progetto.
-\subsection{Python}
-Python offre diverse librerie utili per l'apprendimento automatico, il trattamento del linguaggio naturale e molto altro ancora.
-\subsection{Jupiter Notebook}
-Applicazione che permette di creare documenti testuali contenenti anche codice eseguibile. Utile per realizzare e documentare analisi di dati.
-\subsection{Tika}
-\label{subsec:tika}
-Tika è un tool che permette di estrarre dai file i suoi metadata (come titolo del file, autore e altro) e il suo contenuto sottoforma di testo (strutturato e non).
-Riesce ad estrarre i dati da molti formati tra cui Pdf, docx e html.
-\subsection{Pandas}
-\label{subsec:pandas}
-Pandas è una libreria che fornisce strutture dati e strumenti per la manipolazione e l'analisi dei dati.
-Il primo passo importante dell'estrazione delle tabelle dai vari documenti è stato quello di avere un DataFrame a disposizione con i valori di quest'ultime. 
-Pandas è stato utilizzato per l'estrazione delle tabelle dai file in formato html e docx.
-\subsection{PdfPlumber}
-\label{subsec:pdfplumber}
-PdfPlumber è una libreria per Python che fornisce funzionalità per l'estrazione automatizzata di testo e tabelle dai documenti PDF.
-Nel progetto è stato utilizzato per estrarre le tabelle dai vari pdf.
-\subsection{Python-docx}
-\label{subsec:python-docx}
-Python-docx è una libreria che consente di creare, modificare e leggere documenti Microsoft Word.
-Grazie a questa libreria è possibile manipolare le tabelle presenti all'interno dei file docx.
-\subsection{BeautifulSoup}
-\label{subsec:beautifulsoup}
-BeautifulSoup è una libreria Python che facilita l'estrazione di dati da file HTML e XML.
-Consente, inoltre, di creare e modificare tag all'interno del codice con il quale si sta lavorando.
-\subsection{OpenAI API}
-API fornita da OpenAI tramite la quale si possono sfruttare i vari modelli offerti per la generazione di testo in linguaggio naturale.
-\subsection{Weaviate}
-\label{subsec:weav}
-Weaviate è un database vettoriale utile per la ricerca dei dati basata sulla loro semantica e sulle loro relazioni. 
+Il linguaggio di programmazione scelto per sviluppare il codice necessario a completare gli obiettivi richiesti è stato \textbf{Python} perchè offre diverse librerie utili per l'apprendimento automatico e il trattamento del linguaggio naturale.
+Utlizzando Python insieme a \textbf{Jupiter Notebook}, un'applicazione che permette di scrivere documenti misti con testo e codice eseguibile, è stato molto più facile realizzare e documentare analisi sui dati.
+
+\noindent Per poter estrarre il contenuto testuale dai vari documenti ho scelto di continuare a usare \textbf{Tika-python} che veniva già utilizzato nel primo prototipo fornitomi dall'azienda, ma veniva utilizzato per estrarre il testo non strutturato.
+Grazie a Tika, è possibile convertire il contenuto del testo in XHTML da diversi formati di file, questo è stato molto utile per poter individuare i vari elementi semantici all'interno dei documenti.
+Come detto precedentemente, però, questa funzione di Tika non opera correttamente con tutti i tipi di formato e non estrae correttamente la struttura delle tabelle.
+Per ovviare al problema delle tabelle ho deciso di utilizzare dei tool di estrazione appositi come \textbf{Pandas}, \textbf{pdfplumber} e \textbf{python-docx} rispettivamente per estrarre tabelle da file HTML, Pdf e Docx.
+Questi tool di estrazione appositi, essendo stati creati proprio per questa funzione, restituiscono le tabelle dei documenti con una struttura sicuramente più simile a quella presente nel documento rispetto a come estrarrebbe Tika.
+Per portare poi le tabelle ad un livello di astrazione che fosse uguale per tutti i tipi di formato, le tabelle sono state convertite in \emph{DataFrame} di Pandas (struttura dati bidimensionale che può contenere dati di diversi tipi).
+
+Per poter lavorare con l'XHTML fornito da Tika con più semplicità ho utilizzato \textbf{BeautifulSoup} che è una libreria Python che facilita l'estrazione e la manipolazione di dati da questo tipo di file.
+Consente di creare e modificare tag all'interno del codice con il quale si sta lavorando e di estrarre il contenuto presente nei tag stessi.
+
+Il Chat-Completion Model viene preso da \textbf{OpenAI API}, un'API fornita da OpenAI tramite la quale si possono sfruttare i vari modelli offerti per la generazione di testo in linguaggio naturale mentre il motore di ricerca utilizzato 
+è stato \textbf{Weaviate}, un database vettoriale utile per la ricerca dei dati basata sulla loro semantica e sulle loro relazioni. 
 
 \section{Progettazione e codifica}
+
+\subsection{L'idea}
+\label{subsec:ideaProg}
+Grazie a Tika riusciamo a convertire il contenuto dei documneti in XHTML in modo tale da poter lavorare con del testo strutturato.
+Con i documenti dove c'è già una struttura al di sotto Tika riesce a convertire molto bene il contenuto dei documenti in un XHTML ed è in grado di individuare intestazioni (e i loro livelli gerarchici h1,h2,...), tabelle e altro.
+Per questo non è stato difficile riuscire a implementare le funzioni utili per lavorare con i file HTML e Docx.
+Per i Pdf invece le cose sono state più complesse, gli unici tool individuati che riescono a convertire bene il contenuto dei pdf (come "Aspose") in testo strutturato richiedono una licenza a pagamento e quindi è stato utilizzato comunque Tika.
+In questo caso il contenuto viene rappresentato tramite dei tag \emph{div} che rappresentano le singole pagine e il contenuto stesso viene trascritto tramite dei tag \emph{p}. \\
+
+\noindent Qui di seguito vengono descritte le parti di codice sviluppate e le motivazioni per le quali sono state prese determinate scelte.
+
+\subsection{L'architettura}
+
 \label{sec:progettazione-codifica}
 La parte di codice sviluppata per questo progetto integra la parte di logica dell'applicazione di un backend già esistente.
 
@@ -50,89 +47,43 @@ La parte di codice sviluppata per questo progetto integra la parte di logica del
     \caption{Architettura della parte di codice implementata nel backend.}
 \end{figure}
 
-\subsection{L'idea}
-Grazie a Tika riusciamo a convertire il contenuto dei documneti in XHTML in modo tale da poter lavorare con del testo strutturato.
-Con i documenti dove c'è già una struttura al di sotto Tika riesce a convertire molto bene il contenuto dei documenti in un XHTML ed è in grado di individuare intestazioni (e i loro livelli gerarchici h1,h2,...), tabelle e altro.
-Per questo non è stato difficile riuscire a implementare le funzioni utili per lavorare con i file HTML e Docx.
-Per i Pdf invece le cose sono state più complesse, gli unici tool individuati che riescono a convertire bene il contenuto dei pdf (come "Aspose") in testo strutturato richiedono una licenza a pagamento e quindi è stato utilizzato comunque Tika.
-In questo caso il contenuto viene rappresentato tramite dei tag \emph{div} che rappresentano le singole pagine e il contenuto stesso viene trascritto tramite dei tag \emph{p}. \\
-
-\noindent Qui di seguito vengono descritte le parti di codice sviluppate di maggiore rilevanza.
-
-\subsection{ExtractionTable}
-ExtractionTableHTML, ExtractionTableDocx, ExtractionTablePdf e ExtractionTableDefault implementano la classe AbstractExtractionTable ed espongono quelle funzioni utili alle operazioni da fare sulle tabelle presenti nei documenti di quello specifico formato:
+\noindent L'algoritmo prevede come risultato la generazione dei chunk, ma prima di poterli creare c'è bisogno di rielaborare i diversi elementi semantici presi in considerazione.
+La classe \textbf{TextExtractor} definisce una funzione \textbf{extractText} che prepara il contenuto del documento alla generazione dei chunk. Inizialmente estrae e converte il testo in XHTML grazie a Tika.
+\\\\La parte successiva alla conversione è quella che riguarda l'estrazione delle tabelle dai documenti e la sostituzione di queste ultime linearizzate all'interno del testo che è una parte di algoritmo che varia per i diversi tipi di formato, per questo mi sono ricondotto a utilizzare 
+il \gls{design pattern}\glsfirstoccur \textbf{\gls{strategy}}\glsfirstoccur: viene definita una classe astratta \textbf{AbstractExtractionTable} che prevede l'implmenetazione di alcune funzioni come \textbf{ExtractTable} e \textbf{replaceTab} che estraggono la tabella e la sostituiscono con la versione linearizzata all'interno del documento
+a seconda del formato preso in considerazione (\textbf{ExtractionTableHTML, ExtractionTableDocx, ExtractionTablePdf}) e utilizzando i tool appropriati per l'estrazione delle tabelle (Pandas, python-docx e pdfplumber).
+Nel caso in cui il formato del file inserito non rientra fra quelli presi in considerazione o ancora non è stata implementata una classe per quest'ultimo, viene utilizzata la classe \textbf{ExtractionTableDefault}: ho deciso di implementare questa classe per avere comunque delle possibilità nella sostituizione delle tabelle nel caso in cui si riesca a convertire discretamente il documento in XHTML tramite Tika.
+Se vengono trovate poi delle tabelle all'interno del contenuto tramite BeautifulSoup allora si potranno estrarre tramite Pandas e successivamente sostiure con la linearizzazione.
+Per instanziare l'oggetto del tipo ExtractionTable corretto viene utilizzata la funzione \textbf{factoryExtractTable}. 
+\\\\Prima di concludere con la funzione extractText c'è da considerare il caso in cui Tika non riesca a convertire correttamente il contenuto in XHTML e lo fa come spiegato nel paragrafo \ref{subsec:ideaProg}. I problema principale essenzialmente è l'assenza di header.
+Nel caso in cui Tika non riesca a convertire correttamente, quindi, come primo figlio del tag \emph{body} viene inserito un tag \emph{h1} che contiene il titolo del file.
+Inoltre per semplficare il lavoro che dovrà essere attuato poi in fase di chunking tutti i tag figli presenti nei tag \emph{div} che rappresentano le pagine vengono estratti e resi figli del \emph{body}.
+Questo viene fatto perchè, tramite BeautifulSoup, ha più senso passare da un tag al suo sibling successivo piuttosto che al tag successivo (che potrebbe essere anche un figlio): al momento dell'estrazione del contenuto se estraggo il contenuto di un tag \emph{table} verrà estratto tutto il testo presente nella tabella, se passo al tag successivo (che potrebbe essere un \emph{thead}) estrarrò di nuovo il contenuto del figlio avendo così delle informazioni duplicate.
+\\\\Al fine di semplficare le operazioni da effettuare sul codice XHTML ho deciso di creare un modulo pyhton \textbf{Section.py} che espone la funzione \textbf{makeSection}: questa funzione converte il codice in una struttura ad albero chiamata \emph{Sezione}.
+Ogni oggetto Sezione è composto dal titolo del paragrafo e dal suo contenuto. Il contenuto è una lista di elementi che può contenere testo o può contenere altre sezioni nel caso in cui ci siano dei sottoparagrafi.
+\\\\Infine, grazie alla funzione \textbf{chunking} presente nel modulo \textbf{Chunking.py} viene generata la lista di chunk del documento.
+Ogni oggetto Chunk è composto da:
 \begin{itemize}
-    \item La funzione \textbf{extractTable} prende in ingresso un file path e restituisce la lista delle tabelle, convertite in DataFrame, presenti nel documento indicato nel percorso. Per estrarre le tabelle sono stati utilizzati i seguenti tool:
-    \begin{itemize}
-        \item HTML: \nameref{subsec:pandas};
-        \item Docx: \nameref{subsec:python-docx};
-        \item Pdf: \nameref{subsec:pdfplumber};
-    \end{itemize}
-    \item La funzione \textbf{replaceTable} prende in ingresso un file path, una lista di tabelle da sostituire all'interno del documento e ritorna la versione XHTML del documento estratta tramite \nameref{subsec:tika} con le tabelle linearizzate sostituite all'interno.
-    Per HTML e Docx la funzione rimane uguale: grazie a \nameref{subsec:beautifulsoup} è possibile cercare tutti i vari tag \emph{table} e sostituire il loro contenuto. Per i Pdf invece sono state usate le espressioni regolari per cercare e sostituire le tabelle. 
-    \item Le tabelle vengono linearizzate tramite la funzione \textbf{adaptTable} che prende in ingresso un DataFrame e ritorna la stringa che rappresenta la tabella.
-\end{itemize} 
-
-\subsection{FactoryExtractTable}
-Viene presentata una funzione \textbf{factoryExtractTable} che prende in ingresso un file path e in base al suo formato istanzia un oggetto di tipo ExtractionTable.
-Quando viene inserito un file in un formato che non corrisponde a uno dei tre principali viene instanziato un oggetto di tipo ExtractionTableDefault.
-Si è deciso di sviluppare questa classe per avere comunque delle possibilità nella sostituizione delle tabelle nel caso in cui si riesce a convertire discretamente il documento in XHTML.
-
-\subsection{TextExtractor}
-TextExtractor mette a disposizione la funzione \textbf{extractText} che prende in ingresso un file path e un booleano \emph{getText}.
-Questa funzione ritorna:
-\begin{itemize}
-    \item Con getText = False, il contenuto del documento convertito in XHTML;
-    \item Con getText = True, il contenuto del documento convertito il stringa (testo non strutturato). 
-\end{itemize}
-
-Per lavorare più facilmente con il contenuto XHTML prodotto dalla conversione dei pdf, al \emph{body} viene aggiunto un primo titolo \emph{h1} con contenuto il nome del file come primo tag e vengono estratti tutti i tag da dentro i \emph{div} che rappresentano le pagine (individuabili con BeautifulSoup perchè hanno \emph{"class=page"}).
-
-\subsection{Sections.py}
-Modulo creato che contiene funzioni utili per convertire un XHTML in una struttura ad albero rinominata "Sezione"
-
-La Sezione viene definita in base ai vari titoli dei paragrafi e al loro livelo gerarchico ed è formata dai seguenti campi:
-\begin{itemize}
-    \item titolo (stringa): titolo della sezione;
-    \item contenuto (lista): all'interno della lista ci può essere sia contenuto testuale che altre sezioni. 
-\end{itemize}
-
-La funzione che viene esposta per creare la Sezione si chiama \textbf{makeSection} e prende in ingresso contenuto in forma XHTML.
-
-\subsection{Chunking.py}
-Modulo creato che contiene funzioni utili per la conversione delle Sezione in Chunk.
-
-Il Chunk è formato dai seguenti campi:
-\begin{itemize}
-    \item titolo (stringa): titolo della chunk;
+    \item Titolo: titolo del paragrafo al quale corrisponde il suo contenuto;
     \item parentsTit (lista di stringhe): contiene tutti i titoli superiori in senso gerarchico al paragrafo;
     \item contenuto (stringa): porzione di contenuto del paragrafo.
     \item page (intero): numero della pagina da dove è stato preso il contenuto del chunk (ancora non utilizzato, messo per successivi aggiornamenti del codice). 
 \end{itemize}
 
-Le funzioni esposte e utili all'esterno di questo modulo sono le seguenti:
-\begin{itemize}
-    \item La funzione \textbf{chunking} che prende in ingresso il contenuto XHTML di un documento, il numero massimo di token da cui può essere composto un chunk, la funzione di encode da testo in token e la funzione di decode da token a testo.
-    Questa funzione sfrutta makeSection (definita in Section.py) e restituisce la lista ordinata di chunk che compongono il documento.
-    All'interno della funzione viene chiamata anche la funzione \textbf{cleanText} effettua la pulizia del testo rimuovendo le ripetizioni dei caratteri passati come input.
-    \item La funzione \textbf{createTitleForChunk} crea la stringa di titoli unita in base a un numero massimo di token da cui può essere composta, prende una lista di titoli e il numero di token che possono comporre la stringa.
-    Questa funzione non ha senso di essere applicata sui documenti nei quali Tika non riesce a riconoscere una struttura: viene trovato un unico titolo che è il nome del file e sostanzialmente è come se fosse tutto sotto un unico paragrafo.
-\end{itemize}
-
-\subsection{Applicazione}
-La parte dell'applicazione effettiva in questo momento è implementata tramite un Jupiter Notebook ed è il prototipo che mi è stato passato all'inizio dello stage.
-Quello che ho fatto è stato chiamare le varie funzioni per ottenere le tabelle linearizzate e il chunking migliorato all'interno.
+\noindent In questo momento i titoli, i parent dei titoli e il contenuto non venogono ancora concatenati, dopo essere entrati in possesso della lista dei Chunk, chi ci lavora può gestirlo come preferisce.
+L'operazione che viene fatta nel momento della creazione del chunk è la pulizia del testo: la funzione \textbf{cleanText} usa delle espressioni regolari che ricercano sequenze di determinati caratteri e li riduce ad un singolo carattere del tipo individuato, viene chiamata all'interno della funzione chunking.
+\\\\
+\noindent La parte dell'\textbf{applicazione} effettiva in questo momento è implementata tramite un Jupiter Notebook ed è il prototipo che mi è stato passato all'inizio dello stage.
+Quello che ho fatto è stato aggiungere le chiamate delle varie funzioni implementate per ottenere le tabelle linearizzate e il chunking migliorato all'interno.
 La procedura che viene eseguita per far funzionare il prototipo è la seguente:
 \begin{enumerate}
     \item Viene dato un insieme di documenti;
     \item Ogni documento convertito in XHTML tramite \textbf{extractText} che a sua volta linearizza le tabelle;
     \item Vengono creati i chunk tramite la funzione \textbf{chunking};
+    \item Al contenuto vengono concatenati i titoli dei chunk uniti con i titoli parent tramite la funzione \textbf{createTitleForChunk} da Chunking.py come spiegato nel paragrafo \ref{subsubsec:ideachunking};
     \item I vari chunk vengono caricati sul motore di ricerca;
     \item Quando viene posta una domanda, vengono restituiti i 10 chunk con lo score più alto (hybrid search);
     \item La richiesta (domanda + 10 chunk) viene consegnata al Chat-Completion Model che elabora le informazioni e restituisce una risposta alla domanda. 
 \end{enumerate}
 
-\section{Design pattern}
 
-Per strutturare il codice in maniera tale da renderlo di facile manutenzione ed estensione sono stati usati i \gls{design pattern}\glsfirstoccur.
-Il design pattern utilizzato è stato lo \textbf{\gls{strategy}}\glsfirstoccur: per ogni formato dei file l'estrazione della tabella avviene in maniera differente quindi viene applicato lo strategy pattern che definisce una classe astratta \emph{AbstractExtractionTable} che verrà poi implementata a seconda del formato preso in cosiderazione. 

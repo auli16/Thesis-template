@@ -1,10 +1,22 @@
 \chapter{Studio e ricerca preliminare}
 \label{cap:analisi-preliminare}
 
-\intro{In questo capitolo verranno illustrate nel dettaglio le varie metodologie individuate per poter rendere di maggiore qualità le risposte fornite dal RALM tramite il raggiungimento dei diversi obiettivi.} \\
+\intro{In questo capitolo vengono descritte nel dettaglio tutte le problematiche da risolvere durante lo sviluppo del progetto.
+Verranno illustrate nel dettaglio le varie metodologie individuate per poter rendere di maggiore qualità le risposte fornite dal RALM tramite il raggiungimento dei diversi obiettivi.} \\
 
 \section{Analisi dei requisiti}
 
+\subsubsection{Requisiti}
+Una prima versione di backend dei servizi di estrazione di testo era già disponibile e lo scopo di questo progetto era quello di migliorare proprio quest'ultimo raggiungendo i seguenti obbiettivi:
+
+\begin{itemize}
+    \item Obbligatori:
+    \subitem \gls{Parsing}\glsfirstoccur ad-hoc per documenti in cui le componenti grafiche contribuiscono alla semantica (es. tabelle e immagini);
+    \subitem Estrapolazione, per alcuni formati dove sia possibile, della struttura logica del documento (es. individuando titoli e paragrafi);
+    \subitem Pulizia del testo estratto dai documenti (es. eliminazione delle componenti inutili come gli indici e i sommari).
+    \item Desiderabili:
+    \subitem Interpretazione delle immagini allo scopo di arricchire i \gls{chunk}\glsfirstoccur in cui sono contestualizzate. 
+\end{itemize}
 
 I formati dei file considerati in questo stage sono stati i seguenti:
 \begin{itemize}
@@ -12,6 +24,17 @@ I formati dei file considerati in questo stage sono stati i seguenti:
     \item Docx;
     \item HTML.
 \end{itemize}
+
+\subsection{Problematiche}
+Non sempre il RALM è in grado di fornire una risposta corretta o soddisfacente.
+Diverse sono state le criticità da risolvere durante lo sviluppo sia per quanto riguarda il rendere più comprensibile il contenuto al RALM, sia per quanto riguarda le conversioni dei documenti nei vari formati.
+Tika, il tool utilizzato per estrarre il contenuto in testo non strutturato, durante la conversione ha delle perdite sulla struttura del contenuto come ad esempio le perdite di informazioni sulla struttura delle tabelle oppure sulla struttura del documento in sè (titolo, paragrafi, sottoparagrafi).
+Per agevolare la comprensione del RALM, velocizzare le operazioni di ricerca dell'informazione e fare in modo di aumentare la probabilità che le risposte siano corrette è necessario trovare un modo per mantenere in maniera efficace queste strutture all'interno del testo semplice.
+Un vantaggio utile di Tika è che può anche convertire il contenuto in formati strutturati come l'XHTML.
+Grazie a questa funzione sarebbe già possibile individuare titoli, paragrafi e tabelle del documento ma, purtroppo, non in tutti i formati è possibile farlo: per i file HTML e Docx, dove c'è già una struttura di base, Tika riesce a identificare i vari elementi semantici, con i Pdf la questione risulta più complessa.
+Inoltre, non sempre, Tika riesce a ottenere la struttura esatta della tabella rispetto a come è rappresentata.
+L'ultimo punto da analizzare è la questione delle ripetizioni di alcuni caratteri come segni di punteggiatura, newline e spazi: chiaramente Tika non è in grado di riconoscere quando ci sono degli elementi superflui all'interno del contenuto, è necessario quindi capire come fare per ridurre al minimo la quantità di caratteri all'interno del testo. 
+
 
 \section{Ricerca e studio preliminare}
 \subsection{Table Question Answering}
@@ -21,7 +44,7 @@ L'obiettivo è quello di migliorare l'accesso e la comprensione delle informazio
 \subsubsection{Linearizzazione delle tabelle}
 \label{subsubsec-lin-tab}
 Una tabella può assumere moltissime strutture e per questo è stato deciso di considerare solamente le tabelle che avessero come prima riga 
-un'intesazione orizzontale e nelle righe successive i vari dati.
+un'intesazione orizzontale e nelle righe successive i vari dati (esempio: tabella \ref{tab:esempio-cibo}).
 
 \begin{table}[H]
     \centering
@@ -39,7 +62,7 @@ un'intesazione orizzontale e nelle righe successive i vari dati.
     \caption{Esempio di tabella presa in considerazione (valori approssimativi).}
     \label{tab:esempio-cibo}
 \end{table}
-\noindent Come specificato precedentemente le tabelle al momento dell'estrazione venivano linearizzate 
+\noindent Come specificato precedentemente le tabelle al momento dell'estrazione venivano linearizzate in testo semplice
 perdendo alcune informazioni necessarie per la lettura effettuata dal RALM. 
 
 \noindent Per esempio la tabella \ref{tab:esempio-cibo} verrebbe linearizzata in questa maniera:
@@ -50,7 +73,7 @@ perdendo alcune informazioni necessarie per la lettura effettuata dal RALM.
 
 \subsubsection{L'idea}
 \noindent Dopo un attenta ricerca effettuata su vari documenti scientifici sono riuscito ad individuare un modo semplice ed efficace per mantenere 
-l'informazione nella tabella linearizzata e la sua struttura:
+l'informazione nella tabella linearizzata e la sua struttura: (metodo simile a come viene spiegato nel paragrafo 4 \emph{Models}, sottosezione \emph{Table QA Module} del documento scritto da \cite{art:multimodelqa}):
 \begin{itemize}
     \item All'inizio di ogni riga viene scritto "Riga n->" dove n sta per il numero della riga;
     \item Per ogni cella presente nella tabella vengono concatenati il valore dell'intestazione della colonna dov'è presente il valore e il valore della cella separati dal carattere ":";
@@ -82,8 +105,8 @@ Qui di seguito viene spiegato come il motore di ricerca è in grado di assegnare
 \subsubsection{Recupero delle informazioni}
 \label{subsubsec:rec-inf}
 \paragraph{\gls{BM25}}
-BM25 è una ranking function usata dai motori di ricerca (nel mio caso \nameref{subsec:weav}), è un algoritmo di tipo \emph{\gls{Bag-of-Words}}\glsfirstoccur e calcola un punteggio per ogni chunk
-presente in base alla frequenza di vari termini presenti nella query di ricerca. 
+BM25 è una ranking function usata dai motori di ricerca, è un algoritmo di tipo \emph{\gls{Bag-of-Words}}\glsfirstoccur e calcola un punteggio per ogni chunk
+presente in base alla frequenza di vari termini presenti nella query di ricerca (informazioni ricavate da \cite{site:wikiOkapi}). 
 
 \paragraph{Vector search}
 Tramite la vector search vengono generate rappresentazioni vettoriali dei dati ed è possibile calcolare la similarità tra i vettori.
@@ -105,6 +128,8 @@ La cosine similarity e la cosine distance hanno una relazione inversa: all'aumen
 \text{Cosine distance} = 1-Cos(A,B)
 \]
 
+\noindent (Informazioni ricavate da \cite{site:weaviate-distance-metrics}).
+
 \paragraph{Ricerca ibrida}
 Il tipo di ricerca applicata in Weaviate per questo progetto è stata la ricerca ibridia che sfrutta sia BM25 che la \emph{Vector search} per poter stabilire uno score per i chunk.
 
@@ -116,7 +141,7 @@ Ad ogni documento viene assegnato un punteggio che equivale alla somma dei recip
 \text{RFF} = \sum_{d \in D} (\frac{1}{k+r(d)})    
 \]
 
-\noindent Per esempio vengono dati tre chunk A, B, C e vengono classificati nella seguente maniera tramite i due ranking algorithm:
+\noindent Per esempio, nella tabella \ref{tab:ranking}, vengono dati tre chunk A, B, C e vengono classificati nella seguente maniera tramite i due ranking algorithm:
 
 \begin{table}[H]
     \centering
@@ -132,6 +157,7 @@ Ad ogni documento viene assegnato un punteggio che equivale alla somma dei recip
         \hline
     \end{tabular}
     \caption{Esempio di ranking per i documenti A, B, C tramite BM25 e Vector Search.}
+    \label{tab:ranking}
 \end{table}
 
 \noindent Gli RRF score dei documenti A, B, C sono i seguenti:
@@ -149,12 +175,15 @@ Ad ogni documento viene assegnato un punteggio che equivale alla somma dei recip
         \hline
     \end{tabular}
     \caption{Esempio di calcolo del RRF score per i documenti A, B, C.}
+    \label{tab:hybridrank}
 \end{table}
 
-\noindent In questo esempio abbiamo quindi che il miglior chunk da considerare è il chunk B seguito poi dal chunk A e dal C.
+\noindent Nella tabella \ref{tab:hybridrank} abbiamo quindi che il miglior chunk da considerare è il chunk B seguito poi dal chunk A e dal C.\\
+\\
+\noindent (Informazioni ricavate da \cite{site:weaviate-hybrid-search}).
 
 \subsubsection{L'idea}
-
+\label{subsubsec:ideachunking}
 Per migliorare la qualità del chunking sono state attuate due strategie:
 \begin{itemize}
     \item Il chunk viene strutturato come segue: all'inizio sarà presente una lista di titoli consevutivi in ordine gerarchico per individuare il contesto del chunk. In base alla grandezza del chunk viene definita una quantità di token che definisce la lunghezza della lista dei titoli. Se questa grandezza viene superata si scarta il titolo più alto in ordine gerarchico fino a quando i token effettivi saranno minori rispetto alla quantità prestabilita.
@@ -200,6 +229,8 @@ Per migliorare la qualità del chunking sono state attuate due strategie:
     \item Pulizia del testo: le serie di caratteri  (come spazi, newline, '-', '*', altro), scelti prima di effettuare la pulizia, vengono sostituiti con un unico carattere dello stesso tipo.
     \noindent Ogni carattere è composto da un singolo token e quindi i chunk nel caso in cui non si eliminassero queste ripetizioni avrebbero dei caratteri superflui che occuperebbero spazio inutilmente, ci sarebbe il rischio di creare più chunk del dovuto.  
 \end{itemize}
+
+\section{Pianificazione del lavoro}
 
 \subsection{Pianificazione delle attività}
 \begin{table}[H]
@@ -251,15 +282,5 @@ Viene mostrato il diagramma di Gantt delle attività svolte durante le nove sett
     \caption{Diagramma di Gantt delle attività.}
 \end{figure}
 
-\subsubsection{Obbiettivi}
-Una prima versione di backend dei servizi di estrazione di testo era già disponibile e lo scopo di questo progetto era quello di migliorare proprio quest'ultimo raggiungendo i seguenti obbiettivi:
 
-\begin{itemize}
-    \item Obbligatori:
-    \subitem \gls{Parsing}\glsfirstoccur ad-hoc per documenti in cui le componenti grafiche contribuiscono alla semantica (es. tabelle e immagini);
-    \subitem Estrapolazione, per alcuni formati dove sia possibile, della struttura logica del documento (es. individuando titoli e paragrafi);
-    \subitem Pulizia del testo estratto dai documenti (es. eliminazione delle componenti inutili come gli indici e i sommari).
-    \item Desiderabili:
-    \subitem Interpretazione delle immagini allo scopo di arricchire i \gls{chunk}\glsfirstoccur in cui sono contestualizzate. 
-\end{itemize}
 

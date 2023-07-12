@@ -73,7 +73,7 @@ perdendo alcune informazioni necessarie per la lettura effettuata dal RALM.
 
 \subsubsection{L'idea}
 \noindent Dopo un attenta ricerca effettuata su vari documenti scientifici sono riuscito ad individuare un modo semplice ed efficace per mantenere 
-l'informazione nella tabella linearizzata e la sua struttura: (metodo simile a come viene spiegato nel paragrafo 4 \emph{Models}, sottosezione \emph{Table QA Module} del documento scritto da \cite{art:multimodelqa}):
+l'informazione nella tabella linearizzata e la sua struttura:
 \begin{itemize}
     \item All'inizio di ogni riga viene scritto "Riga n->" dove n sta per il numero della riga;
     \item Per ogni cella presente nella tabella vengono concatenati il valore dell'intestazione della colonna dov'è presente il valore e il valore della cella separati dal carattere ":";
@@ -90,6 +90,11 @@ Quindi la tabella \ref{tab:esempio-cibo} viene linearizzata in questo modo:
     Riga2->Cibo: Banana|Quantità:100g|Energia(KCal):89|Carboidrati(g):23|\\
     Proteine(g):1,1|
 \end{tcolorbox}
+
+Nel metodo scritto sul seguente articolo scientifico \cite{art:multimodelqa} (paragrafo 4 \emph{Models}, sottosezione \emph{Table QA Module}) utilizza come sepratori di cella il carattare ';' e come speratore dal numero di riga alla prima cella il carattere ':'.
+Ho pensato che sarebbe stato meglio utilizzare i caratteri '|', '->' per rappresentare una riga perchè sono molto meno frequenti rispoetto a quelli utilizzati nell'articolo.
+
+
 
 \subsection{Chunking}
 \paragraph{Procedimento}

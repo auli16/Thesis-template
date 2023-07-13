@@ -21,25 +21,36 @@ Al livello personale invece ho appreso come migliorare il mio metodo di lavoro s
 Qui di seguito viene riportata la tabella che tratta brevemente della documentazione prodotta durante lo stage.
 \begin{table}[H]
     \centering
-    \begin{tabular}{|p{3cm} |p{8cm} |}
+    \begin{tabular}{|p{3cm} |p{5.5cm} | p{2.5cm}|}
         \hline
-        \textbf{Titolo} & \textbf{Descrizione} \\
+        \textbf{Titolo} & \textbf{Descrizione} & \textbf{Collegamenti}\\
         \hline
-        Appunti su tabelle & Contiene esempi su linearizzazioni di tabelle utili per agevolare il TQA. \\
+        Appunti su tabelle & Contiene esempi su linearizzazioni di tabelle utili per agevolare il TQA. &\\
         \hline
-        Estrazione delle tabelle da documenti & Contiene prove ed esempi che riguardano il funzionamento dei vari tool per l'estrazioni delle tabelle (Pandas, pdfplumber, python-docx). \\
+        Estrazione delle tabelle da documenti & Contiene prove ed esempi che riguardano il funzionamento dei vari tool per l'estrazioni delle tabelle (Pandas, pdfplumber, python-docx). &\\
         \hline
-        Sostituzione tabella del documento con tabella linearizzata & Contiene informazioni su come il contenuto dei documenti viene convertito da Tika e le varie soluzioni di replace applicate nei casi in cui converte correttamente e non il contenuto. \\
+        Sostituzione tabella del documento con tabella linearizzata & Contiene informazioni su come il contenuto dei documenti viene convertito da Tika e le varie soluzioni di replace applicate nei casi in cui converte correttamente e non il contenuto. &\\
         \hline
-        Progettazione & Contiene tutte le informazioni riguardanti la progettazione software del prodotto e le motivazioni sulle scelte effettuate. \\
+        Progettazione & Contiene tutte le informazioni riguardanti la progettazione software del prodotto e le motivazioni sulle scelte effettuate. & ExtractionTable, TextExtractor, Section, Chunking \\
         \hline
-        Idee chunking & Contiene diverse idee su come migliorare il chunking e le motivazioni a favore della scelta applicata. \\
+        ExtractionTable & Contiene tutte le informazioni dettagliate riguardanti la progettazione delle classi di estrazione delle tabelle &\\
         \hline
-        Test & Contiene i risultati raccolti dopo aver posto le domande sulle cinque pagine di Wikipedia prese in considerazione per i tre formati. \\
+        TextExtractor &  Contiene tutte le informazioni dettagliate riguardanti la progettazione delle classi di estrazione del contenuto dai documenti & \\
+        \hline
+        Section & Contiene tutte le informazioni dettagliate riguardanti la progettazione del modulo Section & \\
+        \hline
+        Chunking & Contiene tutte le informazioni dettagliate riguardanti la progettazione del modulo Chunking & \\
+        \hline
+        Idee chunking & Contiene diverse idee su come migliorare il chunking e le motivazioni a favore della scelta applicata. & \\
+        \hline
+        Test & Contiene i risultati raccolti dopo aver posto le domande sulle cinque pagine di Wikipedia prese in considerazione per i tre formati. & \\
         \hline
     \end{tabular}
     \caption{Tabella dei documenti prodotti durante lo stage.}
 \end{table}
+
+\noindent Per scrivere la documentazione necessaria è stata utilizzata Evernote, un'applicazione per scrivere annotazioni in maniera semplice e veloce.
+Il punto forte di di Evernote è stata la possibilità di poter inserire dei collegamenti fra le varie note che sono state create: ad esempio  il documento "Progettazione" ha dei riferimenti agli altri documenti che spiegano nel dettaglio le varie parti dell'architettura.
 
 \subsection{Codice sviluppato}
 Qui di seguito viene riportata la tabella che descrive brevemente i file di codice sviluppati durante il progetto.

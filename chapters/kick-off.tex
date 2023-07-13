@@ -93,7 +93,7 @@ Quindi la tabella \ref{tab:esempio-cibo} viene linearizzata in questo modo:
 \end{tcolorbox}
 
 Nel metodo scritto sul seguente articolo scientifico \cite{art:multimodelqa} (paragrafo 4 \emph{Models}, sottosezione \emph{Table QA Module}) utilizza come sepratori di cella il carattare ';' e come speratore dal numero di riga alla prima cella il carattere ':'.
-Ho pensato che sarebbe stato meglio utilizzare i caratteri '|', '->' per rappresentare una riga perchè sono molto meno frequenti rispoetto a quelli utilizzati nell'articolo.
+I caratteri ':' e ';' potrebbero comparire con molta più frequenza all'interno dei valori delle celle e in questo modo si avrebbe un doppio significato per questi ultimi, cioè sarebbero sia un separatore che una parte di dato, il RALM quindi potrebbe avere dei problemi nel riconoscere questa differenza. 
 
 
 
